@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title>工地详情</title>
+	<link href="../../../../css/mui.min.css" rel="stylesheet" />
+	<link href="../../../../css/layout.css" rel="stylesheet" />
+	<link href="../../../../css/siteDetail.css" rel="stylesheet" />
+</head>
+
+<body>
+<header class="mui-bar-nav mui-bar-transparent dn">
+	<a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="APIUtils.goBeforePage()"></a>
+	<h1 class="mui-title">工地详情</h1>
+</header>
+<!--for start-->
+<div class="onellinelist f15">
+	<div class="topcircle">
+		<div class="toplinebg">
+		</div>
+	</div>
+	<div class="clear"></div>
+	<div class="leftboder">
+		<div class="inforTittle">
+			<span>工地详情</span>
+			<div class="clear"></div>
+		</div>
+		<ul>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">项目编号:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="projectCode">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">项目名称:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="name">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">报监日期:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="inspectionReportDate">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">工程报监号:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="projectInspectionReport">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">工程地址:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="address">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">工地经度:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="longitude">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">工地纬度:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="latitude">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">开工日期:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="plannedStartTime">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">竣工日期:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="plannedCompletionTime">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">工程造价(万元):</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="projectCost">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">建筑规模:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="buildScale">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">施工许可证号:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="constructionPermitNumber">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+		</ul>
+	</div>
+
+</div>
+<!--for end-->
+
+<!--for start-->
+<div class="onellinelist">
+
+	<div class="topcircle">
+		<div class="toplinebg">
+
+		</div>
+	</div>
+
+	<div class="leftboder">
+		<div class="inforTittle">
+			<span>施工单位信息</span>
+			<div class="clear"></div>
+		</div>
+		<ul>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">单位名称:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="constructionUnit">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">负责人:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="constructionUnitStaffName">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">身份证号:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="constructionUnitStaffIdCard">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">电话:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="constructionUnitStaffPhone">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+
+		</ul>
+	</div>
+</div>
+<!--for end-->
+<!--for start-->
+<div class="onellinelist f15">
+	<div class="topcircle">
+		<div class="toplinebg">
+		</div>
+	</div>
+	<div class="leftboder">
+		<div class="inforTittle">
+			<span>设计单位信息</span>
+			<div class="clear"></div>
+		</div>
+		<ul>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">单位名称:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="designUnit">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">负责人:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="designUnitStaffName">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">身份证号:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="designUnitStaffIdCard">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">电话:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="designUnitStaffPhone">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+		</ul>
+	</div>
+
+</div>
+<!--for end-->
+<!--for start-->
+<div class="onellinelist">
+
+	<div class="topcircle">
+		<div class="toplinebg">
+
+		</div>
+	</div>
+
+	<div class="leftboder">
+		<div class="inforTittle">
+			<span>监理单位信息</span>
+			<div class="clear"></div>
+		</div>
+		<ul>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">单位名称:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="supervisor">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">负责人:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="supervisorStaffName">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">身份证号:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="supervisorStaffIdCard">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">电话:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="supervisorStaffPhone">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+
+		</ul>
+	</div>
+</div>
+<!--for end-->
+<!--for start-->
+<div class="onellinelist">
+
+	<div class="topcircle">
+		<div class="toplinebg">
+
+		</div>
+	</div>
+
+	<div class="leftboder">
+		<div class="inforTittle">
+			<span>勘察单位信息</span>
+			<div class="clear"></div>
+		</div>
+		<ul>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">单位名称:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="investor">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">负责人:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="investorStaffName">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">身份证号:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="investorStaffIdCard">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">电话:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="investorStaffPhone">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+
+		</ul>
+	</div>
+</div>
+<!--for end-->
+<!--for start-->
+<div class="onellinelist f15" style="padding-bottom: 42px;">
+
+	<div class="topcircle">
+		<div class="toplinebg">
+		</div>
+	</div>
+	<div class="leftboder">
+		<div class="inforTittle">
+			<span>建设单位信息</span>
+			<div class="clear"></div>
+		</div>
+		<ul>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">单位名称:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="developmentUnit">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">负责人:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="developmentUnitStaffName">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">身份证号:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="developmentUnitStaffIdCard">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+			<li>
+				<div class="mui-col-sm-5 mui-col-xs-5 fl">
+					<span class="pl10 fblue2">电话:</span>
+				</div>
+				<div class="mui-col-sm-7 mui-col-xs-7 fl" id="developmentUnitStaffPhone">
+
+				</div>
+				<div class="clear"></div>
+			</li>
+
+		</ul>
+	</div>
+
+</div>
+<!--for end-->
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/js/APIUtils.js"></script>
+<script type="text/javascript" src="../../../../script/js/business/business-project.js"></script>
+<script type="text/javascript">
+	apiready = function() {
+		$api.fixStatusBar( $api.dom('header'));
+		var pageParam = api.pageParam;
+		initSiteDetail(pageParam.id);
+	};
+
+	//加载工地详细信息
+	function initSiteDetail(id){
+		APIUtils.showProgress("提示", "正在加载中....");
+		projectModule.getProjectDetail(id, function(ret, err) {
+			APIUtils.hideProgress();
+			// 判断请求是否错误
+			if (!APIUtils.errorCatch(err)) {
+				return;
+			}
+			var data = ret.object;
+			/* 设置dom元素内容 */
+			// 工地详情
+			$api.dom('#projectCode').innerHTML = data.projectCode == null ? "" : data.projectCode;//项目编号
+			$api.dom('#name').innerHTML = data.name == null ? "" : data.name;//项目名称
+			$api.dom('#inspectionReportDate').innerHTML = data.inspectionReportDate == null ? "" : new Date(data.inspectionReportDate).Format("yyyy-MM-dd");//报监日期
+			$api.dom('#projectInspectionReport').innerHTML = data.projectInspectionReport == null ? "" : data.projectInspectionReport;//工程报监号
+			$api.dom('#address').innerHTML = data.address == null ? "" : data.address;//工程地址
+			$api.dom('#longitude').innerHTML = data.longitude == null ? "" : data.longitude;//工地经度
+			$api.dom('#latitude').innerHTML = data.latitude == null ? "" : data.latitude;//工地纬度
+			$api.dom('#plannedStartTime').innerHTML = data.plannedStartTime == null ? "" : new Date(data.plannedStartTime).Format("yyyy-MM-dd");;//开工日期
+			$api.dom('#plannedCompletionTime').innerHTML = data.plannedCompletionTime == null ? "" : new Date(data.plannedCompletionTime).Format("yyyy-MM-dd");//竣工时间
+			$api.dom('#projectCost').innerHTML = data.projectCost == null ? "" : data.projectCost;//工程造价(万元)
+			$api.dom('#buildScale').innerHTML = data.buildScale == null ? 0 : data.buildScale;//建筑规模
+			$api.dom('#constructionPermitNumber').innerHTML = data.constructionPermitNumber == null ? "" : data.constructionPermitNumber;//施工许可证号
+			// 建设单位信息
+			$api.dom('#developmentUnit').innerHTML = data.developmentUnit == null ? "" : data.developmentUnit;//建设单位名称
+			$api.dom('#developmentUnitStaffName').innerHTML = data.developmentUnitStaffName == null ? "" : data.developmentUnitStaffName;//建设单位负责人名称
+			$api.dom('#developmentUnitStaffPhone').innerHTML = data.developmentUnitStaffPhone == null ? "" : data.developmentUnitStaffPhone;//建设单位负责人电话
+			$api.dom('#developmentUnitStaffIdCard').innerHTML = data.developmentUnitStaffIdCard == null ? "" : data.developmentUnitStaffIdCard;//建设单位负责人身份证
+			// 监理单位信息
+			$api.dom('#supervisor').innerHTML = data.supervisor == null ? "" : data.supervisor;//监理单位名称
+			$api.dom('#supervisorStaffName').innerHTML = data.supervisorStaffName == null ? "" : data.supervisorStaffName;//监理单位负责人名称
+			$api.dom('#supervisorStaffPhone').innerHTML = data.supervisorStaffPhone == null ? "" : data.supervisorStaffPhone;//监理单位负责人电话
+			$api.dom('#supervisorStaffIdCard').innerHTML = data.supervisorStaffIdCard == null ? "" : data.supervisorStaffIdCard;//监理单位负责人身份证
+			// 设计单位信息
+			$api.dom('#designUnit').innerHTML = data.designUnit == null ? "" : data.designUnit;//设计单位名称
+			$api.dom('#designUnitStaffName').innerHTML = data.designUnitStaffName == null ? "" : data.designUnitStaffName;//设计单位负责人名称
+			$api.dom('#designUnitStaffPhone').innerHTML = data.designUnitStaffPhone == null ? "" : data.designUnitStaffPhone;//设计单位负责人电话
+			$api.dom('#designUnitStaffIdCard').innerHTML = data.designUnitStaffIdCard == null ? "" : data.designUnitStaffIdCard;//设计单位负责人身份证
+			// 施工单位信息
+			$api.dom('#constructionUnit').innerHTML = data.constructionUnit == null ? "" : data.constructionUnit;//施工单位名称
+			$api.dom('#constructionUnitStaffName').innerHTML = data.constructionUnitStaffName == null ? "" : data.constructionUnitStaffName;//施工单位负责人名称
+			$api.dom('#constructionUnitStaffPhone').innerHTML = data.constructionUnitStaffPhone == null ? "" : data.constructionUnitStaffPhone;//施工单位负责人电话
+			$api.dom('#constructionUnitStaffIdCard').innerHTML = data.constructionUnitStaffIdCard == null ? "" : data.constructionUnitStaffIdCard;//施工单位负责人身份证
+			// 勘察单位信息
+			$api.dom('#investor').innerHTML = data.investor == null ? "" : data.investor;//勘察单位名称
+			$api.dom('#investorStaffName').innerHTML = data.investorStaffName == null ? "" : data.investorStaffName;//勘察单位负责人名称
+			$api.dom('#investorStaffPhone').innerHTML = data.investorStaffPhone == null ? "" : data.investorStaffPhone;//勘察单位负责人电话
+			$api.dom('#investorStaffIdCard').innerHTML = data.investorStaffIdCard == null ? "" : data.investorStaffIdCard;//勘察单位负责人身份证
+		});
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>新增安全交底评论</title>
+    <link href="../../../../css/mui.css" rel="stylesheet" />
+    <link href="../../../../css/layout.css" rel="stylesheet" />
+    <script type="text/javascript" src="../../../../script/api.js"></script>
+    <script type="text/javascript" src="../../../../script/js/APIUtils.js"></script>
+</head>
+<body>
+<header class="mui-bar-nav mui-bar-transparent" style="display: none">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="APIUtils.goBeforePage()"></a>
+    <h1 class="mui-title">评论</h1>
+</header>
+<!--<div style="height:10px;"></div>-->
+<form onsubmit="commitComment()">
+    <div class="mui-input-group ">
+        <div class="bgblue">
+            <div class="mui-input-row" style="height: 30%; ">
+                <textarea id="textarea" rows="15"  placeholder="输入评论..."></textarea>
+            </div>
+        </div>
+    </div>
+<!--    <div class="mui-content-padded">-->
+<!--        <button type="button" class="mui-btn mui-btn-block mybtn" onclick="commitComment()">提交</button>-->
+<!--    </div>-->
+</form>
+<script type="text/javascript">
+    apiready = function() {
+
+    };
+
+    /**
+     * 提交评论
+     */
+    function commitComment() {
+        var text = $api.byId("textarea").value;
+        if(text == null || text == "" || text == undefined) {
+            APIUtils.showToast("评论内容不能为空", 2000);
+            return;
+        }
+        // 处理富文本框的回车符，存储在数据库使用<br/>
+        text = text.replace(/(\n)|(\r)/g, "<br/>");
+        api.execScript({
+            name: 'disclosureDetail',
+            frameName : 'disclosureDetailBody',
+            script : 'commitDisclosureComment("'+text+'");'
+        });
+        APIUtils.goBeforePage();
+    }
+</script>
+</body>
+</html>

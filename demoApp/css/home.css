@@ -1,0 +1,13 @@
+.mui-grid-view.mui-grid-9 {
+	width: 92%;
+	margin: 0 auto;
+	background: none;
+	border: none;
+	border-bottom: 1px solid;
+	border-color:rgba(255, 255, 255, 0.3);
+}
+
+.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+	border: none;
+}
+.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body{height:20px;line-height: 20px}

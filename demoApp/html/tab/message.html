@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>消息</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+	<link href="../../css/mui.css" rel="stylesheet"/>
+	<link href="../../css/layout.css" rel="stylesheet"/>
+	<script type="text/javascript" src="../../script/api.js"></script>
+	<script type="text/javascript" src="../../script/js/APIUtils.js"></script>
+	<script type="text/javascript" src="../../script/js/message/message.js"></script>
+</head>
+<body>
+<div  class="flex-wrap flex-vertical  mui-content ">
+	<div class="mui-slider" id="wrap">
+		<div class="mui-col-sm-11 mui-col-xs-11 fl">
+			<div class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted" >
+				<div class="mui-control-item" id="a0" style="color:#6BF8FF;" onclick="randomSwitchBtn( 0 );">
+					平台动态
+				</div>
+				<div class="mui-control-item" id="a1" onclick="randomSwitchBtn( 1 );">
+					整改到期消息
+				</div>
+
+			</div>
+			<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-6"></div>
+		</div>
+		<div class="mui-col-sm-1 mui-col-xs-1 fr">
+			<div onclick="APIUtils.goToPageByWindow('addMessage', '../message/addMessage.html')">
+			<span style="font-size:25px;line-height: 40px;" class="fr">＋</span>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+<div id="main" class="flex-con">
+
+</div>
+<script type="text/javascript">
+	apiready = function () {
+		funIniGroup();
+	};
+
+	function funIniGroup() {
+		var frames = [];
+		var eUrl = ["messageBody", "messageEndTimeBody"];
+		for (var i = 0, len = 2; i < len; i++) {
+			frames.push({
+				name: 'frame2' + i,
+				url: '../message/body/' + eUrl[i] + '.html',
+				bgColor: 'rgba(0,0,0,.2)',
+				bounces: true,
+			})
+		}
+
+		api.openFrameGroup({
+			name: 'messageGroup',
+			scrollEnabled: false,  //frame 组是否能够左右滚动
+			rect: {
+				x: 0,
+				y: 120,
+				w: api.winWidth,
+				h: api.pageParam.marginHeader - $api.dom("#wrap").offsetHeight -3 , // + 号的高度
+			},
+			index: 0,  //默认显示的页面索引
+			preload: 0, //预加载的 frame 个数，默认加载当前页后面一个
+			frames: frames,
+		}, function (ret, err) {
+
+		});
+		randomSwitchBtn(0)
+	}
+
+	function randomSwitchBtn(index) {
+		var left = 50 * index;
+		document.getElementById("sliderProgressBar").style.left = left + "%";
+		// 设置字体颜色
+		document.getElementById("a" + index).style.color = "#6BF8FF";
+		// 设置其他的为默认颜色
+		for (var cur = 0; cur < 2; cur++) {
+			if (index != cur) {
+				document.getElementById("a" + cur).style.color = "";
+			}
+		}
+
+		api.setFrameGroupIndex({
+			name: 'messageGroup',
+			index: index,
+		});
+	}
+</script>
+</body>
+</html>

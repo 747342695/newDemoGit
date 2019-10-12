@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>日志搜索</title>
+    <link href="../../../../css/mui.css" rel="stylesheet" />
+    <link href="../../../../css/layout.css" rel="stylesheet" />
+    <link href="../../../../css/envDetail.css" rel="stylesheet" />
+    <style type="text/css">
+        #start_createtime:before{
+            color:#46b4e4;content:attr(placeholder);
+        }
+        #end_createtime:before{
+            color:#46b4e4;content:attr(placeholder);
+        }
+    </style>
+</head>
+<body>
+<header class="mui-bar-nav mui-bar-transparent">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="APIUtils.goBeforePage()"></a>
+    <h1 class="mui-title">日志搜索</h1>
+</header>
+<div style="height:44px;"></div>
+<form id="logData" onsubmit="getSearch()">
+    <div class="mui-content-padded">
+        <div style="border-left:1px solid #3279a1;border-right:1px solid #3279a1">
+            <div class="mui-input-group ">
+                <div class="bgblue pdlr10">
+                    <div class="mui-input-row">
+                        <div class="lineHeight40" onclick="showProjectList();">
+                            <span class="fblue2 f17" id="projectName" value="">项目名称</span>
+                            <div class="mui-icon mui-icon-arrowdown fr lineHeight40"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mui-input-group ">
+                <div class="bgblue pdlr10">
+                    <div class="mui-input-row">
+                        <input style="padding: 10px 0px"  type="date" placeholder="选择开始日期" id="start_createtime" onchange="changePlaceholder(this.id)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mui-input-group ">
+                <div class="bgblue pdlr10">
+                    <div class="mui-input-row">
+                        <input style="padding: 10px 0px"  type="date" placeholder="选择结束日期" id="end_createtime" onchange="changePlaceholder(this.id)">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="mui-content-padded">
+        <button id="searchButton" type="button" class="mui-btn mui-btn-block mybtn" onclick="getSearch()">搜索</button>
+    </div>
+</form>
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/js/APIUtils.js"></script>
+<script type="text/javascript" src="../../../../script/js/business/business-project.js"></script>
+<script type="text/javascript">
+    // 上一个页面传过来的searchData
+    var pageParam = {};
+    apiready = function() {
+        $api.fixStatusBar( $api.dom('header'));
+        pageParam = api.pageParam;
+        if(pageParam["projectId"] != null && pageParam["projectId"] != undefined && pageParam["projectId"] != "") {
+            $api.dom('#projectName').value = pageParam["projectId"];
+            $api.dom('#projectName').innerHTML = pageParam["projectName"];
+        }
+        $api.dom('#start_createtime').value = pageParam["start_createtime"] == undefined || pageParam["start_createtime"] == null || pageParam["start_createtime"] == "" ? "" : pageParam["start_createtime"];
+        $api.dom('#end_createtime').value = pageParam["end_createtime"] == undefined || pageParam["end_createtime"] == null || pageParam["end_createtime"] == "" ? "" : pageParam["end_createtime"];
+        // 刷新选择日期输入框的提示语
+        changePlaceholder('start_createtime');
+        changePlaceholder('end_createtime');
+    };
+
+    /**
+     * 设置查询条件并返回上一页面
+     */
+    function getSearch() {
+        var projectId = $api.dom('#projectName').value;
+        var projectName = $api.dom('#projectName').innerHTML;
+        var start_createtime = $api.dom('#start_createtime').value;
+        var end_createtime = $api.dom('#end_createtime').value;
+        pageParam = {projectName: projectName, projectId: projectId, start_createtime: start_createtime, end_createtime: end_createtime,
+            type: api.pageParam.type, parentId: api.pageParam.parentId};
+        api.execScript({
+            name: 'securityLog',
+            frameName : 'securityLogBody',
+            script : 'setSearch('+JSON.stringify(pageParam)+');'
+        });
+        APIUtils.goBeforePage();
+    }
+    /**
+     * 监听日期value是否改变
+     * @param elementId 元素id
+     */
+    function changePlaceholder(elementId){
+        var createtime = $api.byId(elementId).value;
+        // 如果日期不为空
+        if(createtime != null && createtime != undefined && createtime != "") {
+            document.getElementById(elementId).placeholder = "";
+        } else {
+            document.getElementById(elementId).placeholder = elementId == "start_createtime" ? "选择开始日期" : "选择结束日期";
+        }
+    }
+    /**
+     * 项目选择器
+     */
+    function showProjectList() {
+        APIUtils.showProgress("提示", "正在加载中....");
+        projectModule.getAllProject(function(ret, err) {
+            APIUtils.hideProgress();
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            if(ret==null || ret.length==0) {
+                APIUtils.showToast("无更多数据加载",2000);
+                return;
+            }
+            // 封装项目对象
+            var stateData = new Array();
+            for(var i=0; i<ret.length; i++) {
+                stateData[i] = {text: ret[i].name, value: ret[i].id};
+            }
+            APIUtils.openUIMultiSelector("选择项目名称", stateData, "projectName");
+        });
+    }
+</script>
+
+</body>
+</html>

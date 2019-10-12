@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>主页</title>
+    <!--加入特定的主页css样式-->
+    <link href="./css/index.css" rel="stylesheet" />
+    <link href="./css/api.css" rel="stylesheet" />
+    <link href="./css/style.css" rel="stylesheet" />
+    <link href="./css/mui.css" rel="stylesheet" />
+    <link href="./css/layout.css" rel="stylesheet" />
+    <link href="./css/home.css" rel="stylesheet" />
+    <script type="text/javascript" src="script/api.js"></script>
+    <script type="text/javascript" src="script/js/APIUtils.js"></script>
+</head>
+<body>
+
+<div id="wrap" class="flex-wrap flex-vertical">
+
+    <header class="mui-bar-transparent" >
+        <ul>
+            <li class="border-b active" >仙桃建管通</li>
+            <li class="border-b"    >功能</li>
+            <li class="border-b"  >消息</li>
+            <li class="border-b"  >我的</li>
+        </ul>
+    </header>
+    <div id="main" class="flex-con">
+
+    </div>
+    <div id="footer" class="border-t">
+        <ul class="flex-wrap" >
+            <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con active" >首页</li>
+            <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con" >功能</li>
+            <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con" >消息</li>
+            <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con" >我的</li>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    apiready = function () {
+        $api.fixStatusBar( $api.dom('header'));
+        $api.fixTabBar($api.byId('footer'));
+        funIniGroup();
+        APIUtils.listenEventView();
+    };
+
+    /**
+     * 打开frame组
+     */
+    function funIniGroup(){
+        var eHeaderLis = $api.domAll('header li'),
+            frames = [];
+        var eUrl = ["home", "business","message","my"];
+        for (var i = 0,len = eHeaderLis.length; i < len; i++) {
+            frames.push( {
+                name: 'frame'+i,
+                url: './html/tab/' + eUrl[i] + '.html',
+                bgColor : 'rgba(0,0,0,.2)',
+                bounces:false,
+                pageParam:{marginHeader:api.winHeight-$api.dom('#footer').offsetHeight-$api.dom('header').offsetHeight}
+            } )
+        }
+        var HeaderOffset = $api.offset($api.dom('header'));
+        var FooterOffset = $api.offset($api.byId('footer'));
+        api.openFrameGroup({
+            name: 'group',
+            scrollEnabled: false,  //frame 组是否能够左右滚动
+            rect: {
+                x: 0,
+                y: HeaderOffset.h,
+                // y: $api.dom('header').offsetHeight,  //9,0
+                w: api.winWidth,
+                h: 'auto',
+                // h: api.winHeight-$api.dom('#footer').offsetHeight-$api.dom('header').offsetHeight,
+                marginLeft: 0,    //相对父 window 左外边距的距离
+                marginTop: 0,    //相对父 window 上外边距的距离
+                marginBottom: FooterOffset.h,    //相对父 window 下外边距的距离
+                marginRight: 0    //相对父 window 右外边距的距离
+            },
+            preload:0, //预加载的 frame 个数，默认加载当前页后面一个
+            index: 0, //默认显示的页面索引
+            frames: frames
+        }, function (ret, err) {
+            if(ret.index!=2){
+                api.setFrameGroupAttr({
+                    name: 'messageGroup',
+                    hidden: true
+                });
+            }else{
+                api.setFrameGroupAttr({
+                    name: 'messageGroup',
+                    hidden: false
+                });
+            }
+        });
+    }
+
+    // 随意切换按钮
+    function randomSwitchBtn( tag ) {
+        if( tag == $api.dom('#footer li.active') )return;
+        var eFootLis = $api.domAll('#footer li'),
+            eHeaderLis = $api.domAll('header li'),
+            index = 0;
+        for (var i = 0,len = eFootLis.length; i < len; i++) {
+            if( tag == eFootLis[i] ){
+                index = i;
+            }else{
+                $api.removeCls(eFootLis[i], 'active');
+                $api.removeCls(eHeaderLis[i], 'active');
+            }
+        }
+        $api.addCls( eFootLis[index], 'active');
+        $api.addCls( eHeaderLis[index], 'active');
+        api.setFrameGroupIndex({
+            name: 'group',
+            index: index,
+            reload: index == 1 || index == 3 ? false : true
+        });
+    }
+</script>
+</body>
+</html>

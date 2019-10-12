@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>视频监控</title>
+    <!--<script src="../../script/jquery-3.1.1.min.js"></script>-->
+    <!--<script src="../../script/mui.js"></script>-->
+    <link href="../../../css/mui.css" rel="stylesheet"/>
+    <link href="../../../css/layout.css" rel="stylesheet"/>
+    <link href="../../../css/siteDetail.css" rel="stylesheet"/>
+    <link href="../../../css/index.css" rel="stylesheet"/>
+    <style>
+
+    </style>
+</head>
+
+<body>
+<header class="mui-bar-nav mui-bar-transparent" style="display: none">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="APIUtils.goBeforePage()"></a>
+    <h1 class="mui-title">视频监控</h1>
+</header>
+<div style="height:10px;"></div>
+<ul class="ulist" id="ulList" style="margin-bottom: 32px">
+    <li id="myLi" style="visibility:hidden;">
+        <div href="../video/projectVideoList.html">襄阳博物馆新馆</div>
+    </li>
+</ul>
+</body>
+
+<script id="projectTemplate" type="text/x-dot-template">
+    {{ for(var x in it) { }}
+    <li>
+        <div onclick='APIUtils.goToPageByWindow("projectVideoList","../video/projectVideoList.html",
+            {projectId:`{{=it[x].id}}`,projectName:`{{=it[x].name}}`})'>{{= it[x].name}}</div>
+    </li>
+    {{ } }}
+</script>
+<script src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/dot.min.js"></script>
+<script src="../../../script/js/APIUtils.js"></script>
+<script src="../../../script/js/business/business-video.js"></script>
+<script>
+    var pageQueryDto = {pageIndex: 0, pageSize: 0, searchData: ''};
+
+    apiready = function () {
+        $api.fixStatusBar($api.dom('header'));
+        // 获取手机的高，获取元素的高，返回页面可显示的数据条目
+        pageQueryDto.pageSize = APIUtils.getPageSize();
+        fnInitEvent();// 初始监听事件
+        pageQuery(pageQueryDto);
+    };
+
+    /**
+     * 初始化页面监听事件
+     */
+    function fnInitEvent() {
+        /**上拉加载 */
+        api.addEventListener({
+            name: 'scrolltobottom',
+            extra: {
+                threshold: 10
+            }
+        }, function (ret, err) {
+            //继续请求数据
+            pageQuery(pageQueryDto, false);
+        });
+        /** 下拉刷新 */
+        api.setRefreshHeaderInfo({
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...'
+        }, function (ret, err) {
+            //重置页码、页面数据，请求数据
+            pageQueryDto.pageIndex = 0;
+            pageQuery(pageQueryDto, true);
+            // 取消下拉刷新效果
+            api.refreshHeaderLoadDone();
+        });
+    };
+
+    function pageQuery(data, isStart) {
+        APIUtils.showProgress('提示', '正在加载中');
+        //查询项目分页查询
+        videoModule.queryProjectList(data, function (ret, err) {
+            APIUtils.hideProgress();
+            if (!APIUtils.errorCatch(err)) {
+                $api.dom('#ulList').innerHTML = "";
+                return;
+            }
+            if(ret["data"]==null||ret["data"].length==0){
+                APIUtils.showToast('无更多数据加载',1000);
+                return ;
+            }
+            var evaluation = doT.template($api.dom("#projectTemplate").innerHTML);
+            var flag = isStart == undefined || isStart == null ? true : isStart;
+            if (flag) {
+                $api.dom('#ulList').innerHTML = evaluation(ret.data);
+            } else {
+                $api.dom('#ulList').innerHTML += evaluation(ret.data);
+            }
+            pageQueryDto.pageIndex++;
+        });
+    }
+
+</script>
+</html>

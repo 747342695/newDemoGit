@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>检查项</title>
+    <link href="../../../../css/mui.css" rel="stylesheet" />
+    <link href="../../../../css/layout.css" rel="stylesheet" />
+    <style>
+        .dubellinelist li{padding-left: 30px;padding-top:10px;padding-bottom: 10px;}
+        .dubellinelist li:first-child{padding-top:0;}
+        .dubellinelist li:last-child{border-bottom: 0px;padding-bottom: 2px;}
+    </style>
+<!--    <link href="../../../../css/envDetail.css" rel="stylesheet" />-->
+</head>
+
+<body>
+<header id="header" class="mui-bar mui-bar-transparent" style="display: none;">
+    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+    <h1 class="mui-title">检查项</h1>
+</header>
+<div class="mui-content">
+    <div class="mui-card bgblue" style="margin-top: 0px;">
+        <ul class="mui-table-view" id="checkProjectDiv">
+            <li class="mui-table-view-cell mui-collapse" style="border-bottom: 1px solid #2d6b91;visibility: hidden">
+                <a class="mui-navigate-right" href="#">安全管理检查</a>
+                <div class="mui-collapse-content" style="background: #162743;">
+                    <div class="dubellinelist">
+                        <ul>
+                            <li>
+                                <div>测试第一项</div>
+                            </li>
+                            <li>
+                                <div>测试第二项</div>
+                            </li>
+                            <li>
+                                <div>测试第仨项</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<script id="checkProjectDot" type="text/x-dot-template">
+    {{ for(var x in it) { }}
+    <li class="mui-table-view-cell mui-collapse" style="border-bottom: 1px solid #2d6b91;">
+        <a class="mui-navigate-right" href="#">{{= it[x].checkProjectName}}</a>
+        <div class="mui-collapse-content" style="background: #162743;">
+            <div class="dubellinelist">
+                <ul>
+                    {{ for(var t in it[x].lists) { }}
+                    <li>
+                        <div onclick="selectCheckProjectDetail('{{= it[x].lists[t].id}}', '{{= it[x].checkProjectName}}')">{{= it[x].lists[t].checkProjectName}}</div>
+                    </li>
+                    {{ } }}
+                </ul>
+            </div>
+        </div>
+    </li>
+    {{ } }}
+</script>
+<script type="text/javascript" src="../../../../script/mui.js"></script>
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/dot.min.js"></script>
+<script type="text/javascript" src="../../../../script/js/APIUtils.js"></script>
+<script type="text/javascript" src="../../../../script/js/business/business-supervision.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        // 初始化加载数据
+        getSelectCheckProject();
+    };
+
+    /**
+     * 加载所有父节点检查项以及子级检查项信息
+     */
+    function getSelectCheckProject() {
+        APIUtils.showProgress("提示", "正在加载中....");
+        superModule.getAllCheckProject(function(ret, err) {
+            APIUtils.hideProgress();
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            var interText = doT.template($api.dom("#checkProjectDot").innerHTML);
+            $api.dom('#checkProjectDiv').innerHTML = interText(ret.data);
+        });
+    }
+
+    /**
+     * 跳转到子节点检查项
+     * @param id 父节点检查项id
+     * @param f4Name 一级节点检查项名称
+     */
+    function selectCheckProjectDetail(id, f4Name) {
+        APIUtils.goToPageByWindow("selectCheckProjectDetail", "../detail/selectCheckProjectDetail.html", {parentId: id, f4: f4Name});
+    }
+</script>
+</body>
+
+</html>

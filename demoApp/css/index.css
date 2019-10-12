@@ -1,0 +1,18 @@
+ /**  首页的css  **/
+header{ background-color: #f2f2f2; }
+header ul li { height: 50px; line-height: 50px; text-align: center; display: none; color: #bceffc; position: relative;font-size: 18px;  }
+header ul li.active{ display: block; }
+ /**  其余页面顶部的css **/
+
+/*head h1 { height: 80px; line-height: 80px; text-align: center; display: none; color: white; position: relative;font-size: 18px;margin-top: 40px}*/
+#footer{  background-color: #0d192c; }
+#footer ul li{ color: white; padding-top: 32px; padding-bottom: 4px; background: url() no-repeat center 2px; background-size: auto 30px; text-align: center; margin-top: 5px}
+#footer ul li.active{ color: #6ab494; }
+#footer ul li:nth-child(1){ background-image: url(../image/index_m_ico1.png); }
+#footer ul li:nth-child(2){ background-image: url(../image/index_m_ico2.png); }
+#footer ul li:nth-child(3){ background-image: url(../image/index_m_ico3.png); }
+#footer ul li:nth-child(4){ background-image: url(../image/index_m_ico4.png); }
+#footer ul li:nth-child(1).active{ background-image: url(../image/index_m_ico1.png); }
+#footer ul li:nth-child(2).active{ background-image: url(../image/index_m_ico2.png); }
+#footer ul li:nth-child(3).active{ background-image: url(../image/index_m_ico3.png); }
+#footer ul li:nth-child(4).active{ background-image: url(../image/index_m_ico4.png); }

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>危险源搜索</title>
+    <link href="../../../../css/mui.css" rel="stylesheet" />
+    <link href="../../../../css/layout.css" rel="stylesheet" />
+    <link href="../../../../css/envDetail.css" rel="stylesheet" />
+</head>
+<body>
+<header class="mui-bar-nav mui-bar-transparent">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="APIUtils.goBeforePage()"></a>
+    <h1 class="mui-title">危险源搜索</h1>
+</header>
+<div style="height:44px;"></div>
+
+<form id="hazardData" onsubmit="getSearch()">
+    <div class="mui-content-padded">
+        <div style="border-left:1px solid #3279a1;border-right:1px solid #3279a1">
+            <div class="mui-input-group ">
+                <div class="bgblue pdlr10">
+                    <div class="mui-input-row">
+                        <div class="lineHeight40" onclick="showProjectList();">
+                            <span class="fblue2 f17" id="projectName" value="">项目名称</span>
+                            <div class="mui-icon mui-icon-arrowdown fr lineHeight40"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mui-input-group ">
+                <div class="bgblue pdlr10">
+                    <div class="mui-input-row">
+                        <input style="padding: 10px 0px" type="text" placeholder="实施单位" id="excuteCompany">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="mui-content-padded">
+        <button id="searchButton" type="button" class="mui-btn mui-btn-block mybtn" onclick="getSearch()">搜索</button>
+    </div>
+</form>
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/js/APIUtils.js"></script>
+<script type="text/javascript" src="../../../../script/js/business/business-supervision.js"></script>
+<script type="text/javascript">
+    var pageParam = {};
+    apiready = function() {
+        $api.fixStatusBar( $api.dom('header'));
+        var pageParam = api.pageParam;
+        if(pageParam["projectId"] != null && pageParam["projectId"] != undefined && pageParam["projectId"] != "") {
+            $api.dom('#projectName').value = pageParam["projectId"];
+            $api.dom('#projectName').innerHTML = pageParam["projectName"];
+        }
+        $api.dom('#excuteCompany').value = pageParam["excuteCompany"] == undefined || pageParam["excuteCompany"] == null || pageParam["excuteCompany"] == "" ? "" : pageParam["excuteCompany"];
+    };
+
+    //设置查询条件并返回上一页面
+    function getSearch() {
+        var projectId = $api.dom('#projectName').value;
+        var projectName = $api.dom('#projectName').innerHTML;
+        var excuteCompany = $api.dom('#excuteCompany').value;
+        pageParam = {projectName: projectName, projectId: projectId, excuteCompany: excuteCompany};
+        api.execScript({
+            name:"hazardManagement",
+            frameName : 'hazardManagementBody',
+            script : 'setSearch('+JSON.stringify(pageParam)+');'
+        });
+        APIUtils.goBeforePage();
+    }
+    /**
+     * 项目选择器
+     */
+    function showProjectList() {
+        APIUtils.showProgress("提示", "正在加载中....");
+        superModule.getAllProject(function(ret, err) {
+            APIUtils.hideProgress();
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            if(ret==null || ret.length==0) {
+                APIUtils.showToast("无更多数据加载",2000);
+                return;
+            }
+            // 封装项目对象
+            var stateData = new Array();
+            for(var i=0; i<ret.length; i++) {
+                stateData[i] = {text: ret[i].name, value: ret[i].id};
+            }
+            APIUtils.openUIMultiSelector("选择项目名称", stateData, "projectName");
+        });
+    }
+</script>
+
+</body>
+</html>

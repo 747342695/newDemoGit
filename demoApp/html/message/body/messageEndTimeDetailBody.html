@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>消息详情</title>
+    <link href="../../../css/mui.css" rel="stylesheet" />
+    <link href="../../../css/layout.css" rel="stylesheet" />
+    <link href="../../../css/siteDetail.css" rel="stylesheet" />
+</head>
+
+<body>
+<header class="mui-bar-nav mui-bar-transparent" style="display: none;">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="APIUtils.goBeforePage()"></a>
+    <h1 class="mui-title">消息详情</h1>
+</header>
+<!--<div style="height:44px;"></div>-->
+<!--for start-->
+<div class="onellinelist f15">
+    <div class="topcircle">
+        <div class="toplinebg">
+        </div>
+    </div>
+
+    <div class="clear"></div>
+    <div class="leftboder">
+        <div class="inforTittle">
+            <span>基本信息</span>
+            <div class="clear"></div>
+        </div>
+        <ul>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">整改编号:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="rectifyCode">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">检查日期:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="checkDate">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">安全监督科/员:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="checkStaffName">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">项目编号:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="projectCode">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">项目名称:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="projectName">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">负责人:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="staffName">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+        </ul>
+    </div>
+</div>
+<!--for end-->
+<!--for start-->
+<div class="onellinelist f15" style="margin-bottom: 32px;">
+    <div class="topcircle">
+        <div class="toplinebg">
+        </div>
+    </div>
+
+    <div class="clear"></div>
+    <div class="leftboder">
+        <div class="inforTittle">
+            <span>检查情况</span>
+            <div class="clear"></div>
+        </div>
+        <ul>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">检查类型:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="rectifyType">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">问题分类:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="checkProject">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">检查内容:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="checkResult">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">问题描述:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="title">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">通知书类型:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="noticeTypeText">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">通知书编号:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="f5">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">限期整改时间:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="rectifyTime">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">整改措施/要求:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="rectifyOpinion">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+
+        </ul>
+    </div>
+
+</div>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/js/APIUtils.js"></script>
+<script type="text/javascript" src="../../../script/js/business/business-supervision.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        $api.fixStatusBar( $api.dom('header'));
+        var pageParam = api.pageParam;
+        initDeciceDetail(pageParam.id);
+    };
+
+    //加载安全整改详细信息
+    function initDeciceDetail(id){
+        APIUtils.showProgress("提示", "正在加载中....");
+        superModule.getRectificationDetail(id, function(ret, err) {
+            APIUtils.hideProgress();
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            var data = ret.object;
+            // 设置dom元素内容
+            $api.dom('#rectifyCode').innerHTML = data.rectifyCode == null ? "" : data.rectifyCode.replace(/<.*?>/g,"");
+            $api.dom('#checkDate').innerHTML = data.checkDate == null ? "" : new Date(data.checkDate).Format("yyyy-MM-dd");
+            $api.dom('#checkStaffName').innerHTML = data.checkStaffName == null ? "" : data.checkStaffName.replace(/<.*?>/g,"");
+            $api.dom('#projectCode').innerHTML = data.projectCode == null ? "" : data.projectCode.replace(/<.*?>/g,"");
+            $api.dom('#projectName').innerHTML = data.projectName == null ? "" : data.projectName.replace(/<.*?>/g,"");
+            $api.dom('#staffName').innerHTML = data.staffName == null ? "" : data.staffName.replace(/<.*?>/g,"");
+            $api.dom('#rectifyType').innerHTML = data.rectifyType == null ? "" : data.rectifyType.replace(/<.*?>/g,"");
+            $api.dom('#checkProject').innerHTML = data.checkProject == null ? "" : data.checkProject.replace(/<.*?>/g,"");
+            $api.dom('#checkResult').innerHTML = data.checkResult == null ? "" : data.checkResult.replace(/<.*?>/g,"");
+            $api.dom('#title').innerHTML = data.title == null ? "" : data.title;
+            $api.dom('#noticeTypeText').innerHTML = data.noticeTypeText == null ? "" : data.noticeTypeText.replace(/<.*?>/g,"");
+            $api.dom('#f5').innerHTML = data.f5 == null ? "" : data.f5.replace(/<.*?>/g,"");
+            $api.dom('#rectifyTime').innerHTML = data.rectifyTime == null ? "" : new Date(data.rectifyTime).Format("yyyy-MM-dd");
+            $api.dom('#rectifyOpinion').innerHTML = data.rectifyOpinion == null ? "" : data.rectifyOpinion.replace(/<.*?>/g,"");
+        });
+    }
+</script>
+</body>
+
+</html>

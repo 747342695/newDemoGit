@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>新增安全整改</title>
+    <link href="../../../../css/mui.css" rel="stylesheet" />
+    <link href="../../../../css/layout.css" rel="stylesheet" />
+    <link href="../../../../css/envDetail.css" rel="stylesheet" />
+    <style type="text/css">
+        #projectId:before{
+            font-size:16px;content:attr(placeholder);
+        }
+        #noticeType:before{
+            font-size:16px;content:attr(placeholder);
+        }
+        #checkProject:before{
+            font-size:16px;content:attr(placeholder);
+        }
+        #checkDate:before{
+            font-size:16px;content:attr(placeholder);
+        }
+        #rectifyTime:before{
+            font-size:16px;content:attr(placeholder);
+        }
+        #rectifyType:before{
+            font-size:16px;content:attr(placeholder);
+        }
+    </style>
+</head>
+
+<body>
+<form >
+    <!--<h5 class="pl10 fblue2 lineHeight34">工地信息</h5>-->
+
+    <!--<div class="mui-input-group ">-->
+    <!--<div class="bgblue">-->
+    <!--<div class="mui-input-row" onclick="showProjectList();">-->
+    <!--<label ><span class="fred">*</span>整改项目</label>-->
+    <!--<div class="lineHeight40 fblue2 f16" id="projectId" placeholder="选择项目" value="" ></div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <h5 class="pl10 fblue2 lineHeight34">基本信息</h5>
+    <input type="hidden" id="projectCode" readonly />
+    <input type="hidden" id="staffId" readonly />
+    <input type="hidden" id="staffPhone" readonly />
+    <input type="hidden" id="staffName" readonly />
+    <input type="hidden" id="projectSubName" readonly />
+    <input type="hidden" id="projectSubId" readonly />
+    <div class="mui-input-group ">
+        <div class="bgblue">
+            <div class="mui-input-row" onclick="showProjectList();">
+                <div class="mui-col-sm-5 mui-col-xs-5 fl v-center h-center lineHeight40 pl10"><span class="fred">*</span>整改项目</div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl">
+                    <div class="lineHeight40 fblue2 f16" id="projectId" placeholder="选择项目" value="" ></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+            <div class="mui-input-row">
+                <div class="mui-col-sm-5 mui-col-xs-5 fl v-center h-center lineHeight40 pl10"><span class="fred">*</span>编号</div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl">
+                    <input type="text" id="rectifyCode" readonly style="padding: 10px 0px"/>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="mui-input-row" >
+                <div class="mui-col-sm-5 mui-col-xs-5 fl v-center h-center lineHeight40 pl10"><span class="fred">*</span>检查日期</div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl">
+                    <input type="date" placeholder="选择日期" value="" id="checkDate"  onchange="changePlaceholder()" style="padding: 10px 0px;"/>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="mui-input-row">
+                <div class="mui-col-sm-5 mui-col-xs-5 fl v-center h-center lineHeight40 pl10" style="padding-left: 16.36px;">施工单位</div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl">
+                    <input type="text" id="constructionUnit" readonly style="padding: 10px 0px"/>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="mui-input-row">
+                <div class="mui-col-sm-5 mui-col-xs-5 fl v-center h-center lineHeight40 pl10" style="padding-left: 16.36px;">施工单位负责人</div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl">
+                    <input type="text" id="constructionUnitStaffName" readonly style="padding: 10px 0px"/>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="mui-input-row">
+                <div class="mui-col-sm-5 mui-col-xs-5 fl v-center h-center lineHeight40 pl10" style="padding-left: 16.36px;">建设单位</div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl">
+                    <input type="text" id="developmentUnit" readonly style="padding: 10px 0px"/>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="mui-input-row">
+                <div class="mui-col-sm-5 mui-col-xs-5 fl v-center h-center lineHeight40 pl10" style="padding-left: 16.36px;">建设单位负责人</div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl">
+                    <input type="text" id="developmentUnitStaffName" readonly style="padding: 10px 0px"/>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="mui-input-row">
+                <div class="mui-col-sm-5 mui-col-xs-5 fl v-center h-center lineHeight40 pl10" style="padding-left: 16.36px;">监理单位</div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl">
+                    <input type="text" id="supervisor" readonly style="padding: 10px 0px"/>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="mui-input-row">
+                <div class="mui-col-sm-5 mui-col-xs-5 fl v-center h-center lineHeight40 pl10" style="padding-left: 16.36px;">监理单位负责人</div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl">
+                    <input type="text" id="supervisorStaffName" readonly style="padding: 10px 0px"/>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="mui-input-row">
+                <div class="mui-col-sm-5 mui-col-xs-5 fl v-center h-center lineHeight40 pl10" style="padding-left: 16.36px;">安全监督科/员</div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl">
+                    <input type="hidden" id="checkStaffId" readonly>
+                    <input type="text" id="checkStaffName" readonly style="padding: 10px 0px"/>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <input type="hidden" id="f5" readonly></input >
+            <!--<div class="mui-input-row noline">-->
+            <!--<label><span class="fred">*</span>通知书附件</label>-->
+            <!--</div>-->
+            <!--<div class="add">-->
+            <!--<img src="../../../../image/chart04.png" width="100%">-->
+            <!--</div>-->
+            <!--<div class="add">-->
+            <!--<span style="font-size:50px;">＋</span>-->
+            <!--</div>-->
+            <div class="clear"></div>
+        </div>
+    </div>
+    <h5 class="pl10 fblue2 lineHeight34">检查情况</h5>
+    <div class="mui-input-group ">
+        <div class="bgblue">
+            <div class="bgblue">
+                <div class="mui-input-row" style="height: auto;" onclick="CheckType();">
+                    <div class="mui-col-sm-5 mui-col-xs-5 fl v-center h-center lineHeight40 pl10"><span class="fred">*</span>检查类型</div>
+                    <div class="mui-col-sm-7 mui-col-xs-7 fl">
+                        <div class="lineHeight40 fblue2 f16" id="rectifyType" placeholder="选择检查类型" value="" ></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="bgblue">
+                <div class="mui-input-row" style="height: auto;" onclick="APIUtils.goToPageByWindow('selectCheckProject', '../add/selectCheckProject.html');">
+                    <div class="mui-col-sm-5 mui-col-xs-5 fl v-center h-center lineHeight40 pl10"><span class="fred">*</span>问题分类</div>
+                    <div class="mui-col-sm-7 mui-col-xs-7 fl">
+                        <div class="lineHeight40 fblue2 f16" id="checkProject" placeholder="选择问题分类" ></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="mui-input-row" style="height: auto;">
+                <div class="mui-col-sm-5 mui-col-xs-5 fl v-center h-center lineHeight40 pl10"><span class="fred">*</span>检查内容</div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl">
+                    <textarea class="fblue2 f16" id="checkResult" rows="4" placeholder="输入检查内容" style="padding: 10px 0px"></textarea>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="mui-input-row" style="height: auto;">
+                <div class="mui-col-sm-5 mui-col-xs-5 fl v-center h-center lineHeight40 pl10"><span class="fred">*</span>安全隐患</div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl">
+                    <textarea class="fblue2 f16" id="title" rows="4" placeholder="输入安全隐患" style="padding: 10px 0px"></textarea>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="mui-input-row" style="height: auto;">
+                <div class="mui-col-sm-5 mui-col-xs-5 fl v-center h-center lineHeight40 pl10"><span class="fred">*</span>整改措施和要求</div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl">
+                    <textarea class="fblue2" id="rectifyOpinion" rows="4" placeholder="输入整改措施和要求" style="padding: 10px 0px"></textarea>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="bgblue">
+                <div class="mui-input-row" onclick="RectifyBook();">
+                    <div class="mui-col-sm-5 mui-col-xs-5 fl v-center h-center lineHeight40 pl10"><span class="fred">*</span>整改通知书</div>
+                    <div class="mui-col-sm-7 mui-col-xs-7 fl">
+                        <div class="lineHeight40 fblue2 f16" id="noticeType" placeholder="选择整改通知书类型" value="" ></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="mui-input-row" >
+                <div class="mui-col-sm-5 mui-col-xs-5 fl v-center h-center lineHeight40 pl10"><span class="fred">*</span>限期整改时间</div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl">
+                    <input class="f16" type="date" value="" id="rectifyTime" placeholder="选择限期整改时间" onchange="RetifyEndTime()" style="padding: 10px 0px">
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <!--图片上传开始-->
+    <div class="mui-input-row noline">
+        <label><span class="fred"></span>隐患图片</label>
+    </div>
+    <div id="imgs">
+        <!--        <li class="mui-col-xs-4 mui-col-sm-4 fl">-->
+        <!--            <img name="fileImg" src="" onerror="APIUtils.noFind()"-->
+        <!--                 width="90%" onclick="APIUtils.openPhotoBrowser(null, '{{=x}}', this.name)"/>-->
+        <!--        </li>-->
+    </div>
+    <div class="clear"></div>
+    <div class="add">
+        <span style="font-size:50px;" onclick="showAction()" > <img src="">＋</span>
+    </div>
+    <div class="clear"></div>
+    <!--图片上传结束-->
+</form>
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/js/APIUtils.js"></script>
+<script type="text/javascript" src="../../../../script/js/business/business-supervision.js"></script>
+
+<script>
+    // 已选图片地址数组
+    var selectedPaths = new Array();
+    // 图片固定宽、高度
+    var widthAndHeight;
+
+    apiready = function() {
+        // 刷新选择日期、限期整改时间输入框的提示语
+        changePlaceholder();
+        //限期整改时间
+        RetifyEndTime();
+        // 自动生成整改编号
+        getRectifyCode();
+        // 自动生成通知书编号
+        getAutoF5();
+        // 获取缓存登录人信息  设置安全监督员姓名，id
+        $api.byId("checkStaffName").value = JSON.parse($api.getStorage(KeyMap.CURRENT_USER).userInfo).userName;
+        $api.byId("checkStaffId").value = JSON.parse($api.getStorage(KeyMap.CURRENT_USER).userInfo).id;
+
+        // 获取屏幕宽度  第二张图片右边距10
+        var winWidth = api.winWidth - 10;
+        widthAndHeight = winWidth/2;
+    };
+
+    /**
+     * 打开图片选择器
+     */
+    function showAction() {
+        var UIAlbumBrowser = api.require('UIAlbumBrowser');
+        UIAlbumBrowser.imagePicker({
+            max: 4,
+            selectedPaths: selectedPaths,
+            animation:false,
+            styles: {
+                bg: '#FFFFFF',                      //（可选项）字符串类型；资源选择器背景，支持 rgb，rgba，#；默认：'#FFFFFF'
+                cameraImg:'widget://res/cameraImg.png',
+                //(可选项）字符串类型；相机图片路径（本地路径，支持fs://、widget://）；默认：相机图片
+                mark: {                             //（可选项）JSON对象；选中图标的样式
+                    icon: '',                       //（可选项）字符串类型；图标路径（本地路径，支持fs://、widget://）；默认：对勾图标
+                    position: 'bottom_left',        //（可选项）字符串类型；图标的位置，默认：'bottom_left'
+                                                    // 取值范围：
+                                                    // top_left（左上角）
+                                                    // bottom_left（左下角）
+                                                    // top_right（右上角）
+                                                    // bottom_right（右下角）
+                    size: 20                        //（可选项）数字类型；图标的大小；默认：显示的缩略图的宽度的三分之一
+                },
+                nav: {                              //（可选项）JSON对象；导航栏样式
+                    bg: 'rgba(13,25,44,1)',                     //（可选项）字符串类型；导航栏背景，支持 rgb，rgba，#；默认：'rgba(0,0,0,0.6)'
+                    cancelColor: '#46b4e4',            //（可选项）字符串类型；取消按钮的文字颜色；支持 rgb，rgba，#；默认：'#fff'
+                    cancelSize: 18,                 //（可选项）数字类型；取消按钮的文字大小；默认：18
+                    nextStepColor: '#46b4e4',            //（可选项）字符串类型；下一步按钮的文字颜色，支持 rgb，rgba，#；默认：'#fff'
+                    nextStepSize: 18,                  //（可选项）数字类型；下一步按钮的文字大小；默认：18
+                    cancelText: '取消',             //（可选项）字符串类型；取消按钮文字内容；默认：'取消'
+                    finishText: '确定',             //（可选项）字符串类型；完成按钮文字内容；默认：'下一步'
+                },
+                thumbnail:{      //（可选项）返回的缩略图配置，**建议本图片不要设置过大** 若已有缩略图，则使用已有的缩略图。若要重新生成缩略图，可先调用清除缓存接口api.clearCache()。
+                    // w: 100,     //（可选项）数字类型；返回的缩略图的宽；默认：原图的宽度
+                    // h: 100      //（可选项）数字类型；返回的缩略图的宽；默认：原图的高度
+                }
+            }
+        }, function(ret) {
+            UIAlbumBrowser.closePicker();
+            // 选取图片点击下一步
+            if (ret.eventType == 'nextStep') {
+                // 拿取选取的图片信息
+                var lists = ret.list;
+                if(lists == null || lists.length == 0) {
+                    return;
+                }
+                // 清空已选图片地址数组
+                selectedPaths = new Array();
+                for(var i=0; i<lists.length; i++) {
+                    selectedPaths[i] = lists[i].path;
+                }
+                // 清空之前选择的图片div
+                $api.dom('#imgs').innerHTML = "";
+                // 渲染图片到app
+                renderingImg(selectedPaths);
+                // 上传图片
+                doUploadHeadIcon(selectedPaths);
+            } else if(ret.originalPath != "" && ret.originalPath != null) {
+                // 拍照后点击确定
+                // 新建图片地址对象数组
+                var lists = new Array();
+                lists[0] = {path: ret.originalPath};
+                // 清空已选图片地址数组
+                selectedPaths = new Array();
+                selectedPaths.push(ret.originalPath);
+                // 清空之前选择的图片div
+                $api.dom('#imgs').innerHTML = "";
+                // 渲染图片到app
+                renderingImg(selectedPaths);
+                // 上传图片
+                doUploadHeadIcon(selectedPaths);
+            } else if(ret.eventType == 'cancel') {
+                // alert("gaunbi");
+            } else if(ret.eventType == 'clickCamera') {
+                // alert("相机");
+            }
+        });
+    }
+
+    /**
+     * 将选择的图片渲染到页面
+     * @param paths 手机图片绝对地址数组
+     */
+    function renderingImg(paths) {
+        for(let i=0; i<paths.length; i++) {
+            $api.dom('#imgs').innerHTML += "<div class=\"mui-col-xs-6 mui-col-sm-6 fl tc \" style=\"padding-left:5px;\" >\n" +
+                "            <img name=\"fileImg\" src=\""+paths[i]+"\" onerror=\"APIUtils.noFind()\"\n" +
+                "                 height=\""+widthAndHeight+"\" width=\""+widthAndHeight+"\" onclick=\"APIUtils.openPhotoBrowser(null, '"+i+"', this.name)\"/>\n" +
+                "        </div>";
+            if(i%2 != 0) {
+                $api.dom('#imgs').innerHTML += "<div class='clear'></div>";
+            }
+        }
+    }
+
+    // 定义图片信息imgs(JSON对象数组)
+    var imgs;
+    /**
+     * 上传图片到文件服务器
+     * @param avator 图片信息数组
+     */
+    function doUploadHeadIcon(avatar) {
+        // 初始化图片信息
+        imgs = new Array();
+        for(let i=0;i<avatar.length;i++) {
+            APIUtils.showProgress('提示', '图片上传中...');
+            superModule.uploadImg(avatar[i], function (ret, err) {
+                APIUtils.hideProgress();
+                if (!APIUtils.errorCatch(err)) {
+                    return;
+                }
+                var imgData = ret["object"];
+                var fileData = {
+                    "filepath": imgData.url,
+                    "filename": imgData.newName,
+                    "totalbytes": (imgData.size) / 1000
+                };
+                imgs.push(fileData);
+                if (ret["msgCode"] != 1) {
+                    APIUtils.showToast("网络错误，图片上传失败", 2000);
+                }
+            });
+        }
+    }
+
+    /**
+     * 项目选择器
+     */
+    function showProjectList() {
+        APIUtils.showProgress("提示", "正在加载中....");
+        superModule.getAllProject(function(ret, err) {
+            APIUtils.hideProgress();
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            if(ret==null || ret.length==0) {
+                APIUtils.showToast("无更多数据加载",2000);
+                return;
+            }
+            // 封装项目对象
+            var projectData = new Array();
+            // 存放项目id数组
+            var projectValueData = new Array();
+            for(var i=0; i<ret.length; i++) {
+                projectData[i] = {text: ret[i].name, value: ret[i].id};
+                projectValueData[i] = ret[i].id;
+            }
+            openUIMultiSelector("选择项目名称", projectData, "projectId", ret,projectValueData);
+        });
+    }
+    /**
+     * 检查时间
+     */
+    function changePlaceholder(){
+        var checkDate = $api.dom('#checkDate').value;
+        //如果日期不为空
+        if(checkDate != null && checkDate != undefined && checkDate != "") {
+            document.getElementById("checkDate").placeholder = "";
+        } else {
+            document.getElementById("checkDate").placeholder = "选择日期";
+        }
+    }
+    /**
+     * 问题分类   关闭检查项、选择检查项window页面
+     * @param selectedData 检查项拼接字符串
+     * @param f4 一级父节点检查项名称
+     */
+    function selectCheckProject(selectedData, f4) {
+        $api.dom('#checkProject').value = f4;
+        $api.dom('#checkProject').innerHTML = selectedData;
+        APIUtils.removePlaceholder("checkProject");
+        api.closeWin({
+            name: 'selectCheckProject'
+        });
+        api.closeWin({
+            name: 'selectCheckProjectDetail'
+        });
+    }
+    /**
+     * 整改通知书类型
+     */
+    function RectifyBook() {
+        APIUtils.showProgress("提示", "正在加载中....");
+        superModule.getRectifyBook(function(ret, err) {
+            APIUtils.hideProgress();
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            if(ret==null || ret.length==0) {
+                APIUtils.showToast("无更多数据加载",2000);
+                return;
+            }
+            // 封装项目对象
+            var TypeData = new Array();
+            var data = ret.data;
+            for(var i=0; i<data.length; i++) {
+                //text 为返回值里要显示在页面的字段
+                TypeData[i] = {text: data[i].dictname, value: data[i].dictcode};
+            }
+            APIUtils.openUIMultiSelector("选择整改通知书类型", TypeData, "noticeType", true);
+        });
+    }
+    /**
+     * 整改类型
+     */
+    function CheckType() {
+        APIUtils.showProgress("提示", "正在加载中....");
+        superModule.getAllType(function(ret, err) {
+            APIUtils.hideProgress();
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            if(ret==null || ret.length==0) {
+                APIUtils.showToast("无更多数据加载",2000);
+                return;
+            }
+            // 封装项目对象
+            var TypeData = new Array();
+            var data = ret.data;
+            for(var i=0; i<data.length; i++) {
+                //text 为返回值里要显示在页面的字段
+                TypeData[i] = {text: data[i].dictname, value: data[i].dictcode};
+            }
+            APIUtils.openUIMultiSelector("选择整改类型", TypeData, "rectifyType", true);
+        });
+
+    }
+    /**
+     * 限期整改时间
+     */
+    function RetifyEndTime(){
+        var rectifyTime = $api.dom('#rectifyTime').value;
+        //如果日期不为空
+        if(rectifyTime != null && rectifyTime != undefined && rectifyTime != "") {
+            document.getElementById("rectifyTime").placeholder = "";
+        } else {
+            document.getElementById("rectifyTime").placeholder = "选择日期";
+        }
+    }
+
+    /**
+     * 自动生成整改编号
+     */
+    function getRectifyCode() {
+        APIUtils.showProgress("提示", "正在加载中....");
+        superModule.getRectifyCode(function(ret, err) {
+            APIUtils.hideProgress();
+            $api.byId("rectifyCode").value=err.body;
+        });
+    }
+
+    /**
+     * 自动生成通知书编号
+     */
+    function getAutoF5() {
+        // 获取通知书编号
+        superModule.getAutoF5(function(ret, err) {
+            // 根据错误请求err拿取数据
+            if(err.body != null && err.body != "" && err.body != undefined) {
+                var val = err.body;
+                $api.byId("f5").value=val.substring(val.length-7);
+            }
+        });
+    }
+
+    /**
+     * 提交新增安全整改
+     */
+    function go() {
+        var projectId = $api.byId("projectId").value;//项目ID
+        var checkStaffName = $api.byId("checkStaffName").value;//安全监督员姓名
+        var checkStaffId = $api.byId("checkStaffId").value;//安全监督员id
+        var projectCode = $api.byId("projectCode").value;//项目编号
+        var projectName = $api.byId("projectId").innerHTML;//项目名称
+        var projectSubName = $api.byId("projectSubName").value;//项目编号
+        var projectSubId = $api.byId("projectSubId").value;//项目编号
+        var title = $api.byId("title").value;//安全隐患
+        var rectifyCode = $api.byId("rectifyCode").value;//整改编号
+        var checkDate = $api.byId("checkDate").value;//检查日期
+        var rectifyOpinion = $api.byId("rectifyOpinion").value;//整改措施和要求
+        var rectifyTime=$api.byId("rectifyTime").value;//限期整改时间
+        var checkResult=$api.byId("checkResult").value;//检查时间
+        var checkProject=$api.byId("checkProject").innerHTML;//问题分类 三级节点检查项名称（逗号分隔） check_project
+        var f4=$api.byId("checkProject").value;//问题分类  父节点检查项名称  f4
+        var rectifyType=$api.byId("rectifyType").value;//检查类型
+        var noticeType=$api.byId("noticeType").value;//证书类型
+        var f5=$api.byId("f5").value;//证书编号
+        var constructionUnit=$api.byId("constructionUnit").value;//施工单位
+        var constructionUnitStaffName=$api.byId("constructionUnitStaffName").value;//施工单位负责人
+        var developmentUnit=$api.byId("developmentUnit").value;//建设单位
+        var developmentUnitStaffName=$api.byId("developmentUnitStaffName").value;//建设单位负责人
+        var supervisor=$api.byId("supervisor").value;//监理单位
+        var supervisorStaffName=$api.byId("supervisorStaffName").value;//监理单位负责人
+        var staffName = $api.byId("staffName").value;
+        var staffId = $api.byId("staffId").value;
+        var staffPhone = $api.byId("staffPhone").value;
+
+        if(projectId==null || projectId == undefined || projectId==""){
+            APIUtils.showToast("请选择项目", 2000);
+            return;
+        }
+        if(checkDate==null || checkDate == undefined || checkDate==""){
+            APIUtils.showToast("请选择检查日期", 2000);
+            return;
+        }
+        if(rectifyType==null || rectifyType == undefined || rectifyType=="" ){
+            APIUtils.showToast("请选择检查类型", 2000);
+            return;
+        }
+        if(checkProject==null || checkProject == undefined || checkProject=="" ){
+            APIUtils.showToast("请输入问题分类", 2000);
+            return;
+        }
+        if(checkResult==null || checkResult == undefined || checkResult=="" ){
+            APIUtils.showToast("输入检查内容", 2000);
+            return;
+        }
+        if(title==null || title == undefined || title=="" ){
+            APIUtils.showToast("输入安全隐患", 2000);
+            return;
+        }
+        if(rectifyOpinion==null || rectifyOpinion == undefined || rectifyOpinion=="" ){
+            APIUtils.showToast("输入整改措施和要求", 2000);
+            return;
+        }
+        if(noticeType==null || noticeType == undefined || noticeType=="" ){
+            APIUtils.showToast("选择整改通知书类型", 2000);
+            return;
+        }
+        if(rectifyTime==null || rectifyTime == undefined || rectifyTime=="" ){
+            APIUtils.showToast("选择限期整改时间", 2000);
+            return;
+        }
+        if(f5==null || f5 == undefined || f5=="" ){
+            APIUtils.showToast("整改通知书编号获取失败", 2000);
+            return;
+        }
+
+        // 处理富文本框的回车符，存储在数据库使用<br/>
+        rectifyOpinion = rectifyOpinion.replace(/(\n)|(\r)/g, "<br/>");
+
+        // 提交数据json
+        var format = {staffName:staffName,staffId:staffId,staffPhone:staffPhone,rectifyType:rectifyType,projectId: projectId,checkResult:checkResult,
+            rectifyType:rectifyType,checkProject:checkProject,f4:f4,projectName:projectName,rectifyTime:rectifyTime,
+            title: title,rectifyCode:rectifyCode,checkDate:checkDate,noticeType:noticeType,projectCode:projectCode,
+            rectifyOpinion:rectifyOpinion,constructionUnit:constructionUnit,constructionUnitStaffName:constructionUnitStaffName,
+            developmentUnit:developmentUnit,developmentUnitStaffName:developmentUnitStaffName,supervisor:supervisor,
+            projectSubName:projectSubName,projectSubId:projectSubId,checkStaffId:checkStaffId,checkStaffName:checkStaffName,
+            supervisorStaffName:supervisorStaffName,f5:f5,f1:"2",dealOpinion:"2",type:"0",imgs:imgs};
+        // 跳转页面
+        api.execScript({
+            name:"safetyRectification",
+            frameName: "safetyRectificationFrame",
+            script : 'addRecordMsg('+JSON.stringify(format)+');'
+        });
+        APIUtils.goBeforePage();
+    }
+    /**
+     * 选择器（修改elementId的innerHTML和value）
+     * @param title 选择器标题title
+     * @param data 选择器数据data(文本内容text、文本值value）
+     * @param elementId 选择器div的id
+     * @parpam retData 请求获取的数据
+     * @param projectValueData 项目id的数组
+     */
+    function openUIMultiSelector(title, data, elementId, retData, projectValueData) {
+        var UIMultiSelector = api.require('UIMultiSelector');
+        // 选择器高度
+        var heigh = 50;
+        if(data.length < 4) {
+            heigh += 45*data.length;
+        } else {
+            heigh += 45*4;
+        }
+        UIMultiSelector.open({
+            rect: {
+                h: heigh
+            },
+            text: {
+                title: title,
+                leftBtn: '',
+                rightBtn: '',
+                selectAll: ''
+            },
+            max: 0,
+            singleSelection: true,
+            styles: {
+                title: {
+                    bg: '#0e1a42',
+                    color: '#46b4e4',
+                    size: 17, //标题字体大小
+                    h: 50
+                },
+                leftButton: {
+                    bg: '#0e1a42',
+                    color: '#46b4e4'
+                },
+                rightButton: {
+                    bg: '#0e1a42',
+                    color: '#46b4e4'
+                },
+                item: {
+                    bg: '#162743',
+                    h: 45,
+                    size: 16,                      //（可选项）数字类型；选项的文字大小；默认：14
+                    activeSize: 16,                //（可选项）数字类型；已选中选项的文字大小；默认：14(仅Android支持)
+                    disableSize:16,                   //（可选项）数字类型；不可选中选项的文字大小；默认：14(仅Android支持)
+                    color: '#46b4e4',
+                    bgHighlight: '#173A43', //选项的高亮背景
+                    lineColor: '#3279a1', //分隔线的颜色
+                    textAlign: 'center' //选项文字的对齐方式
+                }
+            },
+            animation: true,
+            items: data
+        }, function(ret, err) {
+            if (ret) {
+                // 用户点击了列表选项事件
+                if(ret.eventType == 'clickItem') {
+                    $api.byId(elementId).innerHTML = ret.items[0].text;
+                    $api.byId(elementId).value = ret.items[0].value;
+                    // 找到所选元素对应的下标
+                    var a = projectValueData.indexOf(ret.items[0].value);
+                    var nowData = retData[a];
+                    $api.byId("projectCode").value=nowData.projectCode == null || nowData.projectCode == undefined ||
+                    nowData.projectCode == "" ? "" : nowData.projectCode;
+                    $api.byId("staffId").value=nowData.constructionUnitId == null || nowData.constructionUnitId == undefined ||
+                    nowData.constructionUnitId == "" ? "" : nowData.constructionUnitId;
+                    $api.byId("staffPhone").value=nowData.constructionUnitStaffPhone == null || nowData.constructionUnitStaffPhone == undefined ||
+                    nowData.constructionUnitStaffPhone == "" ? "" : nowData.constructionUnitStaffPhone;
+                    $api.byId("staffName").value=nowData.constructionUnitStaffName == null || nowData.constructionUnitStaffName == undefined ||
+                    nowData.constructionUnitStaffName == "" ? "" : nowData.constructionUnitStaffName;
+                    $api.byId("projectSubName").value=nowData.constructionUnit == null || nowData.constructionUnit == undefined ||
+                    nowData.constructionUnit == "" ? "" : nowData.constructionUnit;
+                    $api.byId("projectSubId").value=nowData.constructionUnitId == null || nowData.constructionUnitId == undefined ||
+                    nowData.constructionUnitId == "" ? "" : nowData.constructionUnitId;
+
+                    $api.byId("constructionUnit").value=nowData.constructionUnit == null || nowData.constructionUnit == undefined ||
+                    nowData.constructionUnit == "" ? "" : nowData.constructionUnit;
+                    $api.byId("constructionUnitStaffName").value=nowData.constructionUnitStaffName == null || nowData.constructionUnitStaffName == undefined ||
+                    nowData.constructionUnitStaffName == "" ? "" : nowData.constructionUnitStaffName;
+
+                    $api.byId("developmentUnit").value=nowData.developmentUnit == null || nowData.developmentUnit == undefined ||
+                    nowData.developmentUnit == "" ? "" : nowData.developmentUnit;
+                    $api.byId("developmentUnitStaffName").value=nowData.developmentUnitStaffName == null || nowData.developmentUnitStaffName == undefined ||
+                    nowData.developmentUnitStaffName == "" ? "" : nowData.developmentUnitStaffName;
+
+                    $api.byId("supervisor").value=nowData.supervisor == null || nowData.supervisor == undefined ||
+                    nowData.supervisor == "" ? "" : nowData.supervisor;
+                    $api.byId("supervisorStaffName").value=nowData.supervisorStaffName == null || nowData.supervisorStaffName == undefined ||
+                    nowData.supervisorStaffName == "" ? "" : nowData.supervisorStaffName;
+
+                    UIMultiSelector.close();
+                } else if(ret.eventType == 'clickRight' || ret.eventType == 'clickLeft') {
+                    UIMultiSelector.close();
+                }
+                APIUtils.removePlaceholder("projectId");
+            }
+        });
+    }
+</script>
+</body>
+</html>

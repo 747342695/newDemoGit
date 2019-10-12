@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>危险源明细搜索</title>
+    <link href="../../../../css/mui.css" rel="stylesheet" />
+    <link href="../../../../css/layout.css" rel="stylesheet" />
+    <link href="../../../../css/envDetail.css" rel="stylesheet" />
+</head>
+<body>
+<header class="mui-bar-nav mui-bar-transparent">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="APIUtils.goBeforePage()"></a>
+    <h1 class="mui-title">危险源明细搜索</h1>
+</header>
+<div style="height:44px;"></div>
+<form id="hazardData" onsubmit="getSearch()">
+    <div class="mui-content-padded">
+        <div style="border-left:1px solid #3279a1;border-right:1px solid #3279a1">
+            <!--<div class="mui-input-group ">-->
+                <!--<div class="bgblue pdlr10">-->
+                    <!--<div class="mui-input-row">-->
+                        <!--<input style="padding: 10px 0px" type="text" placeholder="选择危险源类型" id="dangerName">-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="mui-input-group ">
+                <div class="bgblue pdlr10">
+                    <div class="mui-input-row ">
+                        <div class="lineHeight40" onclick="showDangerList()">
+                            <span class="fblue2 f17" id="dangerName" value="">选择危险源类型</span>
+                            <div class="mui-icon mui-icon-arrowdown fr lineHeight40"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="mui-input-group ">
+                <div class="bgblue pdlr10">
+                    <div class="mui-input-row ">
+                        <div class="lineHeight40" onclick="showStateList()">
+                            <span class="fblue2 f17" id="state" value="">选择审核状态</span>
+                            <div class="mui-icon mui-icon-arrowdown fr lineHeight40"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mui-content-padded">
+        <button id="searchButton" type="button" class="mui-btn mui-btn-block mybtn" onclick="getSearch()">搜索</button>
+    </div>
+</form>
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/js/APIUtils.js"></script>
+<script type="text/javascript" src="../../../../script/js/business/business-supervision.js"></script>
+<script type="text/javascript">
+    var pageParam = {};
+    apiready = function() {
+        $api.fixStatusBar($api.dom('header'));
+        pageParam = api.pageParam;
+        $api.dom('#dangerName').value = pageParam["dangerName"] == undefined || pageParam["dangerName"] == null || pageParam["dangerName"] == "" ? "" : pageParam["dangerName"];
+        if(pageParam["state"] != null && pageParam["state"] != undefined && pageParam["state"] != "") {
+            $api.dom('#state').value = pageParam["state"];
+            $api.dom('#state').innerHTML = pageParam["stateName"];
+        }
+    };
+
+    //设置查询条件并返回上一页面
+    function getSearch() {
+        var dangerName = $api.dom('#dangerName').value;
+        var state = $api.dom('#state').value;
+        var stateName = $api.dom('#state').innerHTML;
+        pageParam = {dangerName: dangerName, stateName: stateName, state: state};
+        api.execScript({
+            name:'hazardList',
+            frameName : 'hazardListBody',
+            script : 'setSearch('+JSON.stringify(pageParam)+');'
+        });
+        APIUtils.goBeforePage();
+    }
+
+    /**
+     * 危险源类型选择器
+     */
+    function showDangerList() {
+        APIUtils.showProgress("提示", "正在加载中....");
+        superModule.getAllDangerName(function(ret, err) {
+            APIUtils.hideProgress();
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            if(ret==null || ret.length==0) {
+                APIUtils.showToast("无更多数据加载",2000);
+                return;
+            }
+            // 封装项目对象
+            var dangerData = new Array();
+            var result=ret.data;
+            for(var i=0; i<result.length; i++) {
+                dangerData[i] = {text: result[i].dictname, value: result[i].dictcode};
+            }
+            APIUtils.openUIMultiSelector("选择危险源类型", dangerData, "dangerName");
+        });
+    }
+
+
+    /**
+     * 状态选择器
+     */
+    function showStateList() {
+        APIUtils.showProgress("提示", "正在加载中....");
+        superModule.getAllProjectState(function(ret, err) {
+            APIUtils.hideProgress();
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            if(ret==null || ret.length==0) {
+                APIUtils.showToast("无更多数据加载",2000);
+                return;
+            }
+            // 封装项目对象
+            var hazardData = new Array();
+            for(var i=0; i<ret.length; i++) {
+                hazardData[i] = {text: ret[i].dictname, value: ret[i].dictcode};
+            }
+            APIUtils.openUIMultiSelector("选择审核状态", hazardData, "state");
+        });
+    }
+</script>
+
+</body>
+</html>

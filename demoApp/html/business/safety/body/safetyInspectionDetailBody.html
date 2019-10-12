@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>安全检查详情</title>
+    <link href="../../../../css/mui.min.css" rel="stylesheet" />
+    <link href="../../../../css/layout.css" rel="stylesheet" />
+    <link href="../../../../css/siteDetail.css" rel="stylesheet" />
+</head>
+
+<body>
+<header class="mui-bar-nav mui-bar-transparent" style="display: none;">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="APIUtils.goBeforePage()"></a>
+    <h1 class="mui-title">安全检查详情</h1>
+</header>
+<!--<div style="height:44px;"></div>-->
+<!--for start-->
+<div class="onellinelist f15">
+    <div class="topcircle">
+        <div class="toplinebg">
+        </div>
+    </div>
+
+    <div class="clear"></div>
+    <div class="leftboder">
+        <div class="inforTittle">
+            <span>基本信息</span>
+            <div class="clear"></div>
+        </div>
+        <ul>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">项目名称:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="projectName">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">项目编号:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="projectCode">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">工程地址:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="address" >
+
+                </div>
+                <div class="clear"></div>
+            </li>
+
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">施工单位:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="constructionUnit" >
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">建设单位:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="developmentUnit" >
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">监理单位:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="supervisor" >
+                </div>
+                <div class="clear"></div>
+            </li>
+
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">施工单位负责人:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="constructionUnitStaffName">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">建设单位负责人:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="developmentUnitStaffName">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">监理单位负责人:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="supervisorStaffName">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+            <!--<li>-->
+                <!--<div class="mui-col-sm-5 mui-col-xs-5 fl">-->
+                    <!--<span class="pl10 fblue2">责任人电话:</span>-->
+                <!--</div>-->
+                <!--<div class="mui-col-sm-7 mui-col-xs-7 fl" id="staffPhone">-->
+
+                <!--</div>-->
+                <!--<div class="clear"></div>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<div class="mui-col-sm-5 mui-col-xs-5 fl">-->
+                    <!--<span class="pl10 fblue2">责任单位:</span>-->
+                <!--</div>-->
+                <!--<div class="mui-col-sm-7 mui-col-xs-7 fl" id="projectSubName">-->
+
+                <!--</div>-->
+                <!--<div class="clear"></div>-->
+            <!--</li>-->
+        </ul>
+    </div>
+
+</div>
+<!--for end-->
+<!--for end-->
+<div class="onellinelist f15" style="margin-bottom: 42px;">
+    <div class="topcircle">
+        <div class="toplinebg">
+        </div>
+    </div>
+
+    <div class="clear"></div>
+    <div class="leftboder">
+        <div class="inforTittle">
+            <span>检查情况</span>
+            <div class="clear"></div>
+        </div>
+        <ul>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">检查日期:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="checkDate">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">检查单号:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="rectifyCode">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">形象进度:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="noticeType">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+            <!--<li>-->
+                <!--<div class="mui-col-sm-5 mui-col-xs-5 fl">-->
+                    <!--<span class="pl10 fblue2">通知书类型:</span>-->
+                <!--</div>-->
+                <!--<div class="mui-col-sm-7 mui-col-xs-7 fl" id="noticeTypeText" >-->
+
+                <!--</div>-->
+                <!--<div class="clear"></div>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<div class="mui-col-sm-5 mui-col-xs-5 fl">-->
+                    <!--<span class="pl10 fblue2">通知书记录:</span>-->
+                <!--</div>-->
+                <!--<div class="mui-col-sm-7 mui-col-xs-7 fl" id="noticeNum">-->
+
+                <!--</div>-->
+                <!--<div class="clear"></div>-->
+            <!--</li>-->
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">检查人:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="checkStaffName">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">检查类型:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="rectifyType">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">检查内容:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="checkResult">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">处置意见:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="content">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li>
+                <div class="mui-col-sm-5 mui-col-xs-5 fl">
+                    <span class="pl10 fblue2">检查情况:</span>
+                </div>
+                <div class="mui-col-sm-7 mui-col-xs-7 fl" id="rectifyOpinion">
+
+                </div>
+                <div class="clear"></div>
+            </li>
+            <li id="imgDiv">
+            </li>
+        </ul>
+    </div>
+
+</div>
+</body>
+<!--for end-->
+<script id="imgDot" type="text/x-dot-template">
+    {{ for(var x in it) { }}
+    <div class="mui-col-xs-6 mui-col-sm-6 fl tc" style="padding-left:5px;" >
+        <img name="fileImg" src="{{= it[x].filepath }}" onerror="APIUtils.noFind()"
+             width="{{= it[x].wh}}" height="{{= it[x].wh}}"   onclick="APIUtils.openPhotoBrowser(null, '{{=x}}', this.name)"/>
+    </div>
+    {{if(x%2!=0) { }}
+    <div class='clear'></div>
+    {{ } }}
+    {{ } }}
+</script>
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/js/APIUtils.js"></script>
+<script type="text/javascript" src="../../../../script/dot.min.js"></script>
+<script type="text/javascript" src="../../../../script/js/business/business-supervision.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        $api.fixStatusBar( $api.dom('header'));
+        var pageParam = api.pageParam;
+        initSafetyRecordDetail(pageParam.id);
+
+        // 获取屏幕宽度  样式边距34  第二张图片右边距10
+        var winWidth = api.winWidth * 0.97 - 34 - 10;
+        widthAndHeight = winWidth/2;
+    };
+
+    //加载安全检查详细信息
+    function initSafetyRecordDetail(id){
+        APIUtils.showProgress("提示", "正在加载中....");
+        superModule.getSafetyRecordDetail(id, function(ret, err) {
+            APIUtils.hideProgress();
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            var data = ret.object;
+            // 设置dom元素内容
+            $api.dom('#projectName').innerHTML = data.projectName == null ? "" : data.projectName.replace(/<.*?>/g,"");
+            $api.dom('#address').innerHTML = data.address == null ? "" : data.address.replace(/<.*?>/g,"");
+            $api.dom('#projectCode').innerHTML = data.projectCode == null ? "" : data.projectCode.replace(/<.*?>/g,"");
+            $api.dom('#checkResult').innerHTML = data.checkResult == null ? "" : data.checkResult.replace(/<.*?>/g,"");
+            // $api.dom('#staffName').innerHTML = data.staffName == null ? "" : data.staffName.replace(/<.*?>/g,"");
+            // $api.dom('#staffPhone').innerHTML = data.staffPhone == null ? "" : data.staffPhone.replace(/<.*?>/g,"");
+            // $api.dom('#projectSubName').innerHTML = data.projectSubName == null ? "" : data.projectSubName.replace(/<.*?>/g,"");
+            $api.dom('#checkDate').innerHTML = data.checkDate == null ? "" : new Date(data.checkDate).Format("yyyy-MM-dd");
+            $api.dom('#rectifyCode').innerHTML = data.rectifyCode == null ? "" : data.rectifyCode.replace(/<.*?>/g,"");
+            // $api.dom('#noticeTypeText').innerHTML = data.noticeTypeText == null ? "" : data.noticeTypeText.replace(/<.*?>/g,"");
+            // $api.dom('#noticeNum').innerHTML = data.noticeNum == null ? "" : data.noticeNum;
+            $api.dom('#checkStaffName').innerHTML = data.checkStaffName == null ? "" : data.checkStaffName.replace(/<.*?>/g,"");
+            $api.dom('#rectifyType').innerHTML = data.rectifyType == null ? "" : data.rectifyType.replace(/<.*?>/g,"");
+
+            $api.dom('#constructionUnit').innerHTML = data.constructionUnit == null ? "" : data.constructionUnit.replace(/<.*?>/g,"");//施工单位
+            $api.dom('#developmentUnit').innerHTML = data.developmentUnit == null ? "" : data.developmentUnit.replace(/<.*?>/g,"");//建设单位
+            $api.dom('#supervisor').innerHTML = data.supervisor == null ? "" : data.supervisor.replace(/<.*?>/g,"");//监理单位
+            $api.dom('#constructionUnitStaffName').innerHTML = data.constructionUnitStaffName == null ? "" : data.constructionUnitStaffName.replace(/<.*?>/g,"");//施工单位负责人
+            $api.dom('#developmentUnitStaffName').innerHTML = data.developmentUnitStaffName == null ? "" : data.developmentUnitStaffName.replace(/<.*?>/g,"");//建设单位负责人
+            $api.dom('#supervisorStaffName').innerHTML = data.supervisorStaffName == null ? "" : data.supervisorStaffName.replace(/<.*?>/g,"");//监理单位负责人
+            $api.dom('#noticeType').innerHTML = data.noticeType == null ? "" : data.noticeType.replace(/<.*?>/g,"");//形象进度
+            $api.dom('#content').innerHTML = data.content == null ? "" : data.content.replace(/<.*?>/g,"");//处置意见
+            $api.dom('#rectifyOpinion').innerHTML = data.rectifyOpinion == null ? "" : data.rectifyOpinion.replace(/<.*?>/g,"");//检查情况
+
+            // 设置图片高、宽度
+            var imgData = data.imgs;
+            for(let i=0; imgData != null && i<imgData.length; i++) {
+                imgData[i].wh = widthAndHeight;
+            }
+            // 渲染安全检查隐患图片
+            var interText = doT.template($api.dom("#imgDot").innerHTML);
+            $api.dom('#imgDiv').innerHTML = interText(imgData);
+            $api.dom('#imgDiv').innerHTML += "<div class='clear'></div>";
+        });
+    }
+</script>
+</body>
+
+</html>

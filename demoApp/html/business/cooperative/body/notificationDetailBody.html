@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>通知专区详情</title>
+    <link href="../../../../css/mui.css" rel="stylesheet" />
+    <link href="../../../../css/layout.css" rel="stylesheet" />
+    <link href="../../../../css/siteDetail.css" rel="stylesheet" />
+    <style>
+        .wrapTwo{
+            text-overflow: ellipsis;
+            word-wrap:break-word;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+    </style>
+</head>
+<body>
+<header class="mui-bar-nav mui-bar-transparent" style="display: none">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="APIUtils.goBeforePage()"></a>
+    <h1 class="mui-title">通知专区详情</h1>
+</header>
+<!--<div style="height:10px;"></div>-->
+<!--for start-->
+<div class="onellinelist f15">
+    <div class="topcircle">
+    <div class="toplinebg">
+    </div>
+    </div>
+    <div class="clear"></div>
+    <div class="leftboder">
+        <div class="inforTittle">
+            <span id="newsTitle"></span>
+        </div>
+
+        <ul>
+            <li id="newsContent">
+
+            </li>
+            <div class="clear"></div>
+        </ul>
+    </div>
+
+</div>
+<!--for end-->
+<!--for start-->
+<div class="onellinelist f15" style="padding-bottom:45px">
+
+    <div class="topcircle">
+        <div class="toplinebg">
+        </div>
+    </div>
+    <div class="leftboder">
+        <div class="inforTittle">
+            <span>附件信息</span>
+            <div class="clear"></div>
+        </div>
+        <ul id="fileDiv">
+<!--            <li class="mui-col-xs-4 mui-col-sm-4 fl" id="fileLi" >-->
+<!--                &lt;!&ndash;<a href="project/siteManagement.html">&ndash;&gt;-->
+<!--                    <div class="img flex-col h-center v-center">-->
+<!--                        <img src="../../../../image/siteico.png" width="60%">-->
+<!--                        <div class="f17 tc wrapTwo">11111111111111111111111111111111111111111111111111111</div>-->
+<!--                    </div>-->
+<!--                &lt;!&ndash;</a>&ndash;&gt;-->
+<!--            </li>-->
+<!--            <li class="mui-col-xs-4 mui-col-sm-4 fl" id="fileLi" >-->
+<!--                &lt;!&ndash;<a href="project/siteManagement.html">&ndash;&gt;-->
+<!--                <div class="img flex-col h-center v-center">-->
+<!--                    <img src="../../../../image/siteico.png" width="60%">-->
+<!--                    <div style="font-size: 17px;">标准的建筑企业名单</div>-->
+<!--                </div>-->
+<!--                &lt;!&ndash;</a>&ndash;&gt;-->
+<!--            </li>-->
+<!--            <div class="clear"></div>-->
+        </ul>
+    </div>
+</div>
+<!--for end-->
+<script id="fileDot" type="text/x-dot-template">
+    {{ for(var x in it) { }}
+    <li class="mui-col-xs-4 mui-col-sm-4 fl" id="fileLi" >
+        <!--<a href="project/siteManagement.html">-->
+        <div class="img flex-col h-center v-center">
+            <img src="../../../../image/siteico.png" width="60%">
+            <div class="f17 tc wrapTwo" style="word-wrap:break-word;">{{? it[x].oldname != null }} {{= it[x].oldname}} {{??}} {{= it[x].filename}} {{?}}</div>
+        </div>
+        <!--</a>-->
+    </li>
+    {{ } }}
+</script>
+<script type="text/javascript" src="../../../../script/dot.min.js"></script>
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/js/APIUtils.js"></script>
+<script type="text/javascript" src="../../../../script/js/business/business-cooperative.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        $api.fixStatusBar( $api.dom('header'));
+        var pageParam = api.pageParam;
+        initNotificationDetail(pageParam.id);
+        initNotificationFile(pageParam.id);
+    };
+
+    //加载工地详细信息
+    function initNotificationDetail(id){
+        cooperativeModule.getNotificationDetail(id, function(ret, err) {
+            APIUtils.hideProgress();
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            var data = ret.object;
+            /* 设置dom元素内容 */
+            $api.dom('#newsTitle').innerHTML = data.newsTitle == null ? "" : data.newsTitle.replace(/<.*?>/g,"");
+            $api.dom('#newsContent').innerHTML = data.newsContent == null ? "" : data.newsContent.replace(/<.*?>/g,"");
+        });
+    }
+    //加载工地详细信息
+    function initNotificationFile(id){
+        APIUtils.showProgress("提示", "正在加载中....");
+        cooperativeModule.getNotificationFile(id, function(ret, err) {
+            APIUtils.hideProgress();
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            var notificationData = ret.data;
+            if(notificationData==null || notificationData.length==0) {
+                APIUtils.showToast("无更多数据加载",2000);
+                return;
+            }
+            // 数据页码加一
+            var interText = doT.template($api.dom("#fileDot").innerHTML);
+            $api.dom('#fileDiv').innerHTML = interText(notificationData);
+            $api.append($api.dom('#fileDiv'),"<div class='clear'></div>");
+        });
+    }
+</script>
+</body>
+</html>

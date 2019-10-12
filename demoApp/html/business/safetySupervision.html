@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>安全监督</title>
+    <link href="../../css/mui.css" rel="stylesheet" />
+    <link href="../../css/layout.css" rel="stylesheet" />
+    <link href="../../css/home.css" rel="stylesheet" />
+</head>
+<body>
+<header class="mui-bar-nav mui-bar-transparent">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="APIUtils.goBeforePage()"></a>
+    <h1 class="mui-title">安全监督</h1>
+</header>
+<div style="height:44px;"></div>
+<div class="mnagebg">
+    <div class="mui-content">
+        <div class="mui-demo-container">
+            <ul class="mui-table-view mui-grid-view mui-grid-9" style="border:none;">
+<!--                <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">-->
+<!--                    <a href="#" onclick="APIUtils.goToPageByWindow('securityPrison','./safety/securityPrison.html')">-->
+<!--                        <div class="img flex-col h-center v-center">-->
+<!--                            <img src="../../image/siteico.png" width="60%">-->
+<!--                            <div style="font-size: 17px;">安全报监</div>-->
+<!--                        </div>-->
+<!--                    </a>-->
+<!--                </li>-->
+                <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">
+                    <a href="#" onclick="APIUtils.goToPageByWindow('safetyRectification','./safety/safetyRectification.html')">
+                        <div class="img flex-col h-center v-center">
+                            <img src="../../image/rectico.png" width="60%">
+                            <div style="font-size: 17px;">安全整改</div>
+                        </div>
+                    </a>
+                </li>
+                <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">
+                    <a href="#" onclick="APIUtils.goToPageByWindow('hazardManagement','./safety/hazardManagement.html')">
+                        <div class="img flex-col h-center v-center">
+                            <img src="../../image/hazardico.png" width="60%">
+                            <div style="font-size: 17px;">危险源管理</div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <ul class="mui-table-view mui-grid-view mui-grid-9" style="border:none;">
+                <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">
+                    <a href="#" onclick="APIUtils.goToPageByWindow('securityLog','../business/safety/securityLog.html')">
+                        <div class="img flex-col h-center v-center">
+                            <img src="../../image/logico.png" width="60%">
+                            <div style="font-size: 17px;">安全日志</div>
+                        </div>
+                    </a>
+                </li>
+                <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">
+                    <a href="#" onclick="APIUtils.goToPageByWindow('safetyDisclosure','./safety/safetyDisclosure.html')">
+                        <div class="img flex-col h-center v-center">
+                            <img src="../../image/disclosureico.png" width="60%">
+                            <div style="font-size: 17px;">安全交底</div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <ul class="mui-table-view mui-grid-view mui-grid-9" style="border:none;">
+                <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">
+                    <a href="#" onclick="APIUtils.goToPageByWindow('deviceManagement','./safety/deviceManagement.html')">
+                        <div class="img flex-col h-center v-center">
+                            <img src="../../image/deviceico.png" width="60%">
+                            <div style="font-size: 17px;">特种设备</div>
+                        </div>
+                    </a>
+                </li>
+                <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">
+                    <a href="#" onclick="APIUtils.goToPageByWindow('safetyInspectionRecord','./safety/safetyInspectionRecord.html')">
+                        <div class="img flex-col h-center v-center">
+                            <img src="../../image/inspecico.png" width="60%">
+                            <div style="font-size: 17px;">安全检查</div>
+                        </div>
+                    </a>
+                </li>
+
+            </ul>
+            <ul class="mui-table-view mui-grid-view mui-grid-9" style="border:none;">
+<!--                <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">-->
+<!--                    <a href="#" onclick="APIUtils.goToPageByWindow('safetyRectification','./safety/safetyRectification.html')">-->
+<!--                        <div class="img flex-col h-center v-center">-->
+<!--                            <img src="../../image/siteico.png" width="60%">-->
+<!--                            <div style="font-size: 17px;">安全整改</div>-->
+<!--                        </div>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">-->
+<!--                    <a href="#" onclick="APIUtils.goToPageByWindow('safetySupervisionStop','./safety/safetySupervisionStop.html')">-->
+<!--                        <div class="img flex-col h-center v-center">-->
+<!--                            <img src="../../image/txlico.png" width="60%">-->
+<!--                            <div style="font-size: 17px;">安全监督终止</div>-->
+<!--                        </div>-->
+<!--                    </a>-->
+<!--                </li>-->
+            </ul>
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../../script/layout.js"></script>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/js/APIUtils.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        //计算高度
+        fitHeight("mnagebg","mui-bar-nav",44+ $api.dom('header').offsetHeight + (api.systemVserion=='ios'?20:25));
+        $api.fixStatusBar( $api.dom('header'));
+    }
+</script>
+</body>
+
+</html>

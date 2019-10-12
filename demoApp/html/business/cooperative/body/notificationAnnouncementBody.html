@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>通知公告</title>
+    <link href="../../../../css/mui.css" rel="stylesheet" />
+    <link href="../../../../css/layout.css" rel="stylesheet" />
+</head>
+<body>
+<header class="mui-bar-nav mui-bar-transparent" style="display: none">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="APIUtils.goBeforePage()"></a>
+    <h1 class="mui-title">通知公告</h1>
+</header>
+<div style="height:10px;"></div>
+<div class="mui-col-sm-8 mui-col-xs-8 fl">
+    <div class="mui-input-row mui-search">
+        <div type="search" onclick="searchNotification()"><span class="mui-icon mui-icon-search"></span><span id="searchContent">搜索</span></div>
+    </div>
+</div>
+<div class="mui-col-sm-4 mui-col-xs-4 fl mb15">
+    <button value="查看全部" class="searchBtn" onclick="clickLoad()">查看全部</button>
+</div>
+
+<div class="dubellinelist">
+    <ul id="notificationDiv" style="padding-bottom: 35px;">
+        <li id="notificationLi" style="visibility:hidden">
+            <div class="mui-col-sm-1 mui-col-xs-1 fl tc lineHeight44">
+                1
+            </div>
+            <div class="mui-col-sm-8 mui-col-xs-8 fl">
+                鄂州顺丰机场航空都市小区
+                <p>发布日期:2018-12-21</p>
+            </div>
+            <div class="mui-col-sm-3 mui-col-xs-3 fl tc lineHeight44 ">
+                <div href="./detail/notificationDetail.html" class="forange">更多</div>
+            </div>
+            <div class="clear"></div>
+        </li>
+    </ul>
+</div>
+<script id="notificationDot" type="text/x-dot-template">
+    {{ for(var x in it) { }}
+    <li>
+        <div class="mui-col-sm-1 mui-col-xs-1 fl tc lineHeight44">
+            {{= it[x].No}}
+        </div>
+        <div class="mui-col-sm-8 mui-col-xs-8 fl">
+            {{? it[x].newsTitle != null }} {{= it[x].newsTitle}} {{??}} &nbsp; {{?}}
+            <p>发布日期:{{? it[x].deployTime != null }} {{= it[x].deployTime}} {{??}} &nbsp; {{?}}</p>
+        </div>
+        <div class="mui-col-sm-3 mui-col-xs-3 fl tc lineHeight44 ">
+            <div class="forange" onclick="jumpNotificationDetail('{{= it[x].id}}')">更多</div>
+        </div>
+        <div class="clear"></div>
+    </li>
+    {{ } }}
+</script>
+<script type="text/javascript" src="../../../../script/dot.min.js"></script>
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/js/APIUtils.js"></script>
+<script type="text/javascript" src="../../../../script/js/business/business-cooperative.js"></script>
+<script type="text/javascript">
+    // 数据加载参数（页码大小、页码起始页、搜索条件）
+    var searchDataJson = {pageSize: 0, pageIndex: 0, searchData: [{}]};
+    // 搜索参数
+    var searchData = {datastatus: "", datastatusText: "", newsTitle: ""};
+
+    apiready = function() {
+        $api.fixStatusBar( $api.dom('header'));
+        searchDataJson.pageSize = APIUtils.getPageSize(null, "notificationLi");
+        // 初始监听事件
+        fnInitEvent();
+        // 初始加载分页数据
+        setSearch(searchData);
+    };
+
+    /**
+     * 搜索框设置查询条件
+     */
+    function setSearch(str) {
+        searchData = str;
+        // 设置数据加载参数
+        var searchJsonArr = new Array();
+        searchJsonArr.push({"name":"like_newsTitle", "value": searchData.newsTitle});
+        searchJsonArr.push({"name":"eq_datastatus", "value": searchData.datastatus});
+        //  固定通知渠道id条件
+        searchJsonArr.push({"name":"eq_newsChannelEntity.id", "value": "297e2cc4686f6d0701686f7fdf6a0001"});
+        searchDataJson.searchData = searchJsonArr;
+        // 清空之前条件查询的数据内容
+        $api.dom('#notificationDiv').innerHTML = "";
+        // 根据搜索条件重新搜索
+        searchDataJson.pageIndex = 0;
+        // 根据搜索条件刷新数据
+        loadNotification();
+    }
+    /**
+     * 跳转通知公告详情
+     */
+    function jumpNotificationDetail(id) {
+        var idJson = {id: id};
+        APIUtils.goToPageByWindow('notificationDetail', '../detail/notificationDetail.html', idJson);
+    }
+    /**
+     * 跳转工地搜索frame框，输入查询工地条件
+     */
+    function searchNotification() {
+        APIUtils.goToSearch('notificationSearchForm', '../search/notificationSearchForm.html', searchData);
+    }
+    /**
+     * 触发查询全部按钮
+     */
+    function clickLoad() {
+        // 清空搜索参数数据
+        searchData = {datastatus: "", datastatusText: "", newsTitle: ""};
+        // 清空查询条件
+        searchDataJson.searchData = [{}];
+        // 清空之前条件查询的数据内容
+        $api.dom('#notificationDiv').innerHTML = "";
+        // 根据搜索条件重新搜索
+        searchDataJson.pageIndex = 0;
+        // 根据搜索条件刷新数据
+        loadNotification();
+    }
+    /**
+     * 加载通知公告数据
+     * @param isStart 刷新重新加载isStart
+     */
+    function loadNotification(isStart){
+        APIUtils.showProgress("提示", "正在加载中....");
+        cooperativeModule.getNotification(searchDataJson, function(ret, err) {
+            APIUtils.hideProgress();
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            var notificationData = ret.data;
+            if(notificationData==null || notificationData.length==0) {
+                APIUtils.showToast("无更多数据加载",2000);
+                return;
+            }
+            // 设置dom元素序号内容
+            var no = searchDataJson.pageIndex*searchDataJson.pageSize+1;
+            for (var i = 0; i < notificationData.length; i++) {
+                notificationData[i].No = no+i;
+            }
+            // 数据页码加一
+            searchDataJson.pageIndex++;
+            var interText = doT.template($api.dom("#notificationDot").innerHTML);
+            if(isStart == false) {
+                $api.append($api.dom('#notificationDiv'),interText(notificationData));
+            } else {
+                $api.dom('#notificationDiv').innerHTML = interText(notificationData);
+            }
+        });
+    }
+    /**
+     * 初始化页面监听事件
+     */
+    function fnInitEvent(){
+        /**上拉加载 */
+        api.addEventListener({
+            name:'scrolltobottom',
+            extra:{
+                threshold:10
+            }
+        }, function(ret, err){
+            // 继续请求数据
+            loadNotification(false);
+        });
+        /** 下拉刷新 */
+        api.setRefreshHeaderInfo({
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...'
+        }, function(ret, err) {
+            searchDataJson.pageIndex = 0;
+            // 刷新数据
+            loadNotification();
+            // 取消下拉刷新效果
+            api.refreshHeaderLoadDone();
+        });
+    }
+</script>
+</body>
+</html>

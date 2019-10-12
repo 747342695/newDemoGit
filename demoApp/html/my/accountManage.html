@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>账号管理</title>
+    <link href="../../css/mui.css" rel="stylesheet" />
+    <link href="../../css/layout.css" rel="stylesheet" />
+    <link href="../../css/siteDetail.css" rel="stylesheet" />
+    <link href="../../css/index.css" rel="stylesheet" />
+</head>
+
+<body>
+<header class="mui-bar-nav mui-bar-transparent" >
+    <a   class="mui-icon mui-icon-left-nav mui-pull-left"  onclick="goBeforePage()"></a>
+    <h1 class="mui-title">账号管理</h1>
+</header>
+<div style="height:40px;"></div>
+<ul class="ulist" id="ulList">
+    <li style="padding-top:15px;">
+        <div onclick="APIUtils.goToPageByWindow('settingUpinstall','../my/accountManage/personalInformation.html')">个人信息</div>
+    </li>
+    <li>
+        <div onclick="APIUtils.goToPageByWindow('editPassword','../my/accountManage/editPassword.html')">修改密码</div>
+    </li>
+</ul>
+</body>
+
+
+<script src="../../script/api.js"></script>
+<script src="../../script/js/APIUtils.js"></script>
+<script>
+    apiready = function () {
+        $api.fixStatusBar( $api.dom('header'));
+        // 获取手机的高，获取元素的高，返回页面可显示的数据条目
+
+        // alert($api.offset($api.dom('header')).h);
+        // 查询项目分页查询
+        // videoModule.queryProjectList({pageSize:20,pageIndex:0},function (ret,err) {
+        //
+        // });
+    }
+
+    function goBeforePage() {
+        APIUtils.goBeforePage()
+    }
+</script>
+</html>

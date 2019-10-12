@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>首页</title>
+    <link href="../../css/mui.css" rel="stylesheet"/>
+    <link href="../../css/layout.css" rel="stylesheet"/>
+    <link href="../../css/home.css" rel="stylesheet"/>
+</head>
+<body>
+<!--<header id="header" class="mui-bar mui-bar-transparent">-->
+    <!--&lt;!&ndash;<a class="mui-icon mui-icon-left-nav mui-pull-left"></a>&ndash;&gt;-->
+    <!--<h1 class="mui-title">武穴政府</h1>-->
+<!--</header>-->
+<!--<div style="height:44px;"></div>-->
+<div class="homebg">
+    <div class="mui-content">
+        <div class="mui-demo-container">
+
+            <ul class="mui-table-view mui-grid-view mui-grid-9" onclick="APIUtils.goToPageByWindow('siteManagement','../business/project/siteManagement.html')">
+                <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+                    <span class="f26 forange" id="monthProject">0</span>
+                    <div class="mui-media-body" style="font-size: 17px;">本月新增</div>
+                </li>
+                <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+                    <span class="f26 forange" id="buildProject">0</span>
+                    <div class="mui-media-body" style="font-size: 17px;">在建工地</div>
+                </li>
+                <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+                    <span class="f26 forange" id="registeredProject">0</span>
+                    <div class="mui-media-body" style="font-size: 17px;">在册工地</div>
+                </li>
+            </ul>
+
+            <div class="mui-col-xs-8 mui-col-sm-8 fl" style="padding:10px 0px 10px 15px;">
+                <div onclick="APIUtils.goToPageByWindow('videoMonitoring','../business/videoMonitoring.html')">
+                    <p class="f15">视频数量</p>
+                    <div class="mui-col-xs-9 mui-col-sm-9 fl mbot15" id="videobar">
+                        <p class="mui-progressbar mui-progressbar-in" data-progress="0"><span></span></p>
+                    </div>
+                    <div class="mui-col-xs-3 mui-col-sm-3 fl ">
+                        <p style="margin-top: -4px;"><span class="fblue pl10" id="videoNum">0</span>/<span id="totalVideoNum">0</span></p>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div onclick="APIUtils.goToPageByWindow('envMonitoring','../business/envMonitoring.html')">
+                    <p class="f15">环境设备</p>
+                    <div class="mui-col-xs-9 mui-col-sm-9 fl mbot15" id="enobar">
+                        <p class="mui-progressbar mui-progressbar-in" data-progress="0"><span></span></p>
+                    </div>
+                    <div class="mui-col-xs-3 mui-col-sm-3 fl">
+                        <p style="margin-top: -4px;"><span class="fblue pl10" id="environmentalEquipment">0</span>/<span id="totalEnvironmentalEquipment">0</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="mui-col-xs-4 mui-col-sm-4 fl" style="padding:10px 0px;" id="weatherDiv">
+                <div class="mui-col-xs-12 mui-col-sm-12 fl flex-col v-center h-center" style="height: 80px;">
+                    <div class="mui-col-xs-12 mui-col-sm-12 fl flex-col v-center h-center" style="height: 80px;margin-bottom: -10px;">
+                        <h3 class="tc" style="width: 100%">暂无</h3>
+                        <h3 class="tc" style="width: 100%">数据</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<div class="homelist">
+    <ul class="">
+        <li class="mui-media">
+            <div onclick="APIUtils.goToPageByWindow('securityLog','../business/safety/securityLog.html')">
+                <div class="mdiaico">
+                    <div class="img flex-col h-center v-center" style="background: none;">
+                        <img src="../../image/index_log.png" width="70%">
+                    </div>
+                </div>
+                <div class="mui-media-body homelisttext">
+                    <p class="f18">安全日志</p>
+                    <div class="mui-col-xs-4 mui-col-sm-4 fl" id="safetyLogTotalNum">总数:0</div>
+                    <div class="mui-col-xs-4 mui-col-sm-4 fl" id="safetyLogDayNewNum">今日新增:0</div>
+                    <div class="mui-col-xs-4 mui-col-sm-4 fl" id="safetyLogMonthNewNum">本月新增:0</div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </li>
+        <li class="mui-media">
+            <div onclick="APIUtils.goToPageByWindow('safetyDisclosure','../business/safety/safetyDisclosure.html')">
+                <div class="mdiaico">
+                    <div class="img flex-col h-center v-center" style="background: none;">
+                        <img src="../../image/index_disclosure.png" width="70%">
+                    </div>
+                </div>
+                <div class="mui-media-body homelisttext">
+                    <p class="f18">安全交底</p>
+                    <div class="mui-col-xs-4 mui-col-sm-4 fl" id="safetyDisclosuresTotalNum">总数:0</div>
+                    <div class="mui-col-xs-4 mui-col-sm-4 fl" id="safetyDisclosuresDayNewNum">今日新增:0</div>
+                    <div class="mui-col-xs-4 mui-col-sm-4 fl" id="safetyDisclosuresMonthNewNum">本月新增:0</div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </li>
+        <li class="mui-media">
+            <div onclick="APIUtils.goToPageByWindow('hazardManagement','../business/safety/hazardManagement.html')">
+                <div class="mdiaico">
+                    <div class="img flex-col h-center v-center" style="background: none;">
+                        <img src="../../image/index_hazard.png" width="70%">
+                    </div>
+                </div>
+                <div class="mui-media-body homelisttext">
+                    <p class="f18">危险源管理</p>
+                    <div class="mui-col-xs-4 mui-col-sm-4 fl" id="dangerRecordTotalNum">总数:0</div>
+                    <div class="mui-col-xs-4 mui-col-sm-4 fl" id="dangerRecordNotImplNum">未实施:0</div>
+                    <div class="mui-col-xs-4 mui-col-sm-4 fl" id="dangerRecordInImplNum">实施中:0</div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </li>
+        <li class="mui-media">
+            <div onclick="APIUtils.goToPageByWindow('safetyInspectionRecord','../business/safety/safetyInspectionRecord.html')">
+                <div class="mdiaico">
+                    <div class="img flex-col h-center v-center" style="background: none;">
+                        <img src="../../image/index_inspection.png" width="70%">
+                    </div>
+                </div>
+                <div class="mui-media-body homelisttext">
+                    <p class="f18">安全检查</p>
+                    <div class="mui-col-xs-4 mui-col-sm-4 fl" id="safetyCheckTotalNum">总数:0</div>
+                    <div class="mui-col-xs-4 mui-col-sm-4 fl" id="safetyCheckDayNewNum">今日新增:0</div>
+                    <div class="mui-col-xs-4 mui-col-sm-4 fl" id="safetyCheckMonthNewNum">本月新增:0</div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </li>
+        <li class="mui-media">
+            <div onclick="APIUtils.goToPageByWindow('safetyRectification','../business/safety/safetyRectification.html')">
+                <div class="mdiaico">
+                    <div class="img flex-col h-center v-center" style="background: none;">
+                        <img src="../../image/index_rect.png" width="70%">
+                    </div>
+                </div>
+                <div class="mui-media-body homelisttext">
+                    <p class="f18">安全整改</p>
+                    <div class="mui-col-xs-4 mui-col-sm-4 fl" id="safetyRectifyTotalNum">总数:0</div>
+                    <div class="mui-col-xs-4 mui-col-sm-4 fl" id="safetyRectifyYesImplNum">已整改:0</div>
+                    <div class="mui-col-xs-4 mui-col-sm-4 fl" id="safetyRectifyInImplNum">待整改:0</div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </li>
+    </ul>
+</div>
+<script type="text/javascript" src="../../script/mui.js"></script>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/js/APIUtils.js"></script>
+<script type="text/javascript" src="../../script/js/tab/tab-home.js"></script>
+<script type="text/javascript">
+    apiready = function () {
+        initProject();
+        initDevice();
+        initWeather();
+        initSafetyLog();
+        initSafetyDisclosures();
+        initDangerRecord();
+        initSafetyRectify();
+        initSafetyCheck();
+    };
+
+    //加载项目信息
+    function initProject() {
+        homeModule.getProject(function(ret, err) {
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            var data = ret.object;
+            // 设置dom元素内容
+            $api.dom('#monthProject').innerHTML = data.monthProject;
+            $api.dom('#buildProject').innerHTML = data.buildProject;
+            $api.dom('#registeredProject').innerHTML = data.registeredProject;
+        });
+    }
+    //加载设备信息
+    function initDevice() {
+        homeModule.getDevice(function(ret, err) {
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                initProgressBar(0, 0);
+                return;
+            }
+            var data = ret.object;
+            // 设置dom元素内容
+            $api.dom('#totalVideoNum').innerHTML = data.totalVideoNum;
+            $api.dom('#totalEnvironmentalEquipment').innerHTML = data.totalEnvironmentalEquipment;
+            $api.dom('#videoNum').innerHTML = data.videoNum;
+            $api.dom('#environmentalEquipment').innerHTML = data.environmentalEquipment;
+            initProgressBar(data.videoNum, data.totalVideoNum, data.environmentalEquipment, data.totalEnvironmentalEquipment);
+        });
+    }
+    //加载天气信息
+    function initWeather() {
+        homeModule.getWeather(function(ret, err) {
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            var data = ret.object;
+            if(data == null) {
+                $api.dom('#weatherDiv').innerHTML = `
+                    <div class="mui-col-xs-12 mui-col-sm-12 fl flex-col v-center h-center" style="height: 80px;margin-bottom: -10px;">
+                        <h3 class="tc" style="width: 100%">暂无</h3>
+                        <h3 class="tc" style="width: 100%">数据</h3>
+                    </div>
+                `;
+            } else {
+                $api.dom('#weatherDiv').innerHTML = `
+                    <div class="mui-col-xs-6 mui-col-sm-6 fl flex-col v-center" style="height: 80px;justify-content: flex-end">
+                        <div class="f20 tc">${data.temperature}°</div>
+                        <div style="position: absolute; bottom: 0px;">${data.area}</div>
+                    </div>
+                    <div class="mui-col-xs-6 mui-col-sm-6 fl flex-col v-center h-center" style="height: 80px;">
+                        <div class="tc"><img src="../../image/day/${data.weather_code}.png" width="80%" /></div>
+                        <div style="position: absolute; bottom: 0px;">${data.weather}</div>
+                    </div>
+                `;
+            }
+        });
+    }
+    //加载安全日志信息
+    function initSafetyLog() {
+        homeModule.getSafetyLog(function(ret, err) {
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            var data = ret.object;
+            // 设置dom元素内容
+            $api.dom('#safetyLogTotalNum').innerHTML = "总数:"+data.safetyLogTotalNum;
+            $api.dom('#safetyLogDayNewNum').innerHTML = "今日新增:"+data.safetyLogDayNewNum;
+            $api.dom('#safetyLogMonthNewNum').innerHTML = "本月新增:"+data.safetyLogMonthNewNum;
+        });
+    }
+    //加载安全交底信息
+    function initSafetyDisclosures() {
+        homeModule.getSafetyDisclosures(function(ret, err) {
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            var data = ret.object;
+            // 设置dom元素内容
+            $api.dom('#safetyDisclosuresTotalNum').innerHTML = "总数:"+data.safetyDisclosuresTotalNum;
+            $api.dom('#safetyDisclosuresDayNewNum').innerHTML = "今日新增:"+data.safetyDisclosuresDayNewNum;
+            $api.dom('#safetyDisclosuresMonthNewNum').innerHTML = "本月新增:"+data.safetyDisclosuresMonthNewNum;
+        });
+    }
+    //加载危险源管理信息
+    function initDangerRecord() {
+        homeModule.getDangerRecord(function(ret, err) {
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            var data = ret.object;
+            // 设置dom元素内容
+            $api.dom('#dangerRecordTotalNum').innerHTML = "总数:"+data.dangerRecordTotalNum;
+            $api.dom('#dangerRecordNotImplNum').innerHTML = "未实施:"+data.dangerRecordNotImplNum;
+            $api.dom('#dangerRecordInImplNum').innerHTML = "实施中:"+data.dangerRecordInImplNum;
+        });
+    }
+    //加载安全整改信息
+    function initSafetyRectify(){
+        homeModule.getSafetyRectify(function(ret, err) {
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            var data = ret.object;
+            // 设置dom元素内容
+            $api.dom('#safetyRectifyTotalNum').innerHTML = "总数:"+data.safetyRectifyTotalNum;
+            $api.dom('#safetyRectifyYesImplNum').innerHTML = "已整改:"+data.safetyRectifyYesImplNum;
+            $api.dom('#safetyRectifyInImplNum').innerHTML = "待整改:"+data.safetyRectifyInImplNum;
+        });
+    }
+    //加载安全检查信息
+    function initSafetyCheck() {
+        APIUtils.showProgress("提示", "正在加载中....");
+        homeModule.getSafetyCheck(function(ret, err) {
+            APIUtils.hideProgress();
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            var data = ret.object;
+            // 设置dom元素内容
+            $api.dom('#safetyCheckTotalNum').innerHTML = "总数:"+data.safetyCheckTotalNum;
+            $api.dom('#safetyCheckDayNewNum').innerHTML = "今日新增:"+data.safetyCheckDayNewNum;
+            $api.dom('#safetyCheckMonthNewNum').innerHTML = "本月新增:"+data.safetyCheckMonthNewNum;
+        });
+    }
+    //加载进度条
+    function initProgressBar(videoNum, totalVideoNum, environmentalEquipment, totalEnvironmentalEquipment) {
+        var realVideoNum = videoNum / totalVideoNum * 100;
+        var progressbar = mui('#videobar');
+        mui(progressbar).progressbar().setProgress(realVideoNum);
+        var realEnvironmentalEquipment = environmentalEquipment / totalEnvironmentalEquipment * 100;
+        var enobar = mui('#enobar');
+        mui(enobar).progressbar().setProgress(realEnvironmentalEquipment);
+    }
+</script>
+</body>
+</html>

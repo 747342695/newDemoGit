@@ -1,0 +1,12 @@
+/*施工总览*/
+.chartbg{background:url(../image/chartbg.png) no-repeat 0 0;background-size:100% 100%;width: 150px;height: 150px;margin:20px auto 0 auto;text-align: center;}
+.chartbg1{background:url(../image/chart03.png) no-repeat 0 0;background-size:100% 100%;width:90%;margin:20px auto;margin-bottom: 0px;text-align: center;}
+.chartbg2{background:url(../image/chart02.png) no-repeat 0 0;background-size:100% 100%;width:90%;margin:20px auto;margin-bottom: 0px;text-align: center;}
+.chartbg3{background:url(../image/chart01.png) no-repeat 0 0;background-size:100% 100%;width:90%;margin:20px auto;margin-bottom: 0px;text-align: center;}
+.chartbg4{background:url(../image/chart04.png) no-repeat 0 0;background-size:100% 100%;width:90%;margin:20px auto;margin-bottom: 0px;text-align: center;}
+
+
+/*替换mui 进度条*/
+.mybar{height: 24px;border-radius: 10px;position: relative;width: 100%;background:#0d192c;}
+.mybar span{height: 24px;/*background: #2899FF;*/background:rgba(230,145,103,1);border-radius: 10px;display: block;text-align: right;color: #333;}
+

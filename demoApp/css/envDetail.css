@@ -1,0 +1,7 @@
+.ev_top{background:url(../image/cloud.png) no-repeat center center;background-size:80% 70%; height: 200px;}
+.weathbg{background:url(../image/weathbg.png) no-repeat center center;background-size:100% 100%;width: 150px;height: 150px;line-height:150px;text-align: center;font-size: 22px;position: relative;}
+.historyWeather{background:url(../image/searchbtn.png) no-repeat;background-size:100% 100%;height:46px;line-height:46px;text-align:center;width:100px;color: #46b4e4;font-size:18px;position: absolute;right: 10px; top: 60px;}
+.ev_img{height: 46px;}
+.ev_text{font-size: 16px;white-space: nowrap;/*text-overflow: ellipsis;*/overflow: hidden;}
+.ev_grid{line-height:46px;width:90%;border:1px solid #bceffc;border-radius:10px;margin:0 auto 20px auto;padding:10px 15px;}
+.ev_bottom{background:url(../image/penling.png) no-repeat center center;background-size:100% 100%;width: 150px;height: 150px;font-size: 28px;clear:both;margin:0 auto;}

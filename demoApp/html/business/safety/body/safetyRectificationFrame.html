@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>安全整改</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" type="text/css" href="../../../../css/style.css"/>
+    <link href="../../../../css/mui.css" rel="stylesheet"/>
+    <link href="../../../../css/layout.css" rel="stylesheet"/>
+</head>
+
+<body>
+<header class="mui-bar-nav mui-bar-transparent" id="topbar" style="display: none;">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="APIUtils.goBeforePage()"></a>
+    <h1 class="mui-title">安全整改</h1>
+</header>
+<div class="flex-wrap flex-vertical  mui-content " id="wrap" style="padding-top: 0px;margin-top: 0px;">
+    <div class="mui-slider" id="heigh" style="line-height: 42px;">
+        <div class="mui-col-sm-11 mui-col-xs-11 fl" >
+            <div class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+                <div class="mui-control-item" id="a0" style="color:#6BF8FF;" onclick="randomSwitchBtn( 0 );">
+                    待整改(0)
+                </div>
+                <div class="mui-control-item" id="a1" onclick="randomSwitchBtn( 1 );">
+                    待复核(0)
+                </div>
+                <div class="mui-control-item" id="a2" onclick="randomSwitchBtn( 2 );">
+                    不通过(0)
+                </div>
+                <div class="mui-control-item" id="a3" onclick="randomSwitchBtn( 3 );">
+                    已整改(0)
+                </div>
+            </div>
+            <div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-3"></div>
+        </div>
+        <div class="mui-col-sm-1 mui-col-xs-1 fr">
+            <div onclick="addRecord();">
+                <span style="font-size:25px;line-height: 38px;" class="fr">＋</span>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<div id="main" class="flex-con">
+
+</div>
+
+</body>
+</html>
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/js/APIUtils.js"></script>
+<script type="text/javascript" src="../../../../script/js/business/safety/bussiness-safety.js"></script>
+<script type="text/javascript">
+    apiready = function () {
+        // alert(api.winHeight)//896
+        // var statusHeight = (api.systemType == 'ios') ? 20 : 25; // 判断状态栏高度
+        //
+        // alert($api.byId('heigh').offsetHeight);//42
+        // alert("header"+$api.dom('header').offsetHeight);//0
+        $api.fixStatusBar($api.dom('header'));
+        doInitCount();
+        funIniGroup();
+    };
+
+    function doInitCount() {
+        APIUtils.showProgress("提示", "正在加载中....");
+        safetyModule.getSafetyRectificationCount(function (ret, err) {
+            APIUtils.hideProgress();
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            $api.byId("a0").innerHTML = "待整改(" + ret.object.afterRectification +")";
+            $api.byId("a1").innerHTML = "待复核(" +ret.object.toReview +")";
+            $api.byId("a2").innerHTML = "不通过(" + ret.object.noPass +")";
+            $api.byId("a3").innerHTML = "已整改(" +ret.object.hasRectification +")";
+        });
+    }
+
+    function funIniGroup() {
+        var frames = [];
+        for (var i = 0, len = 4; i < len; i++) {
+            frames.push({
+                name: 'frame' + i,
+                url: './safetyRectificationBody.html',
+                bgColor: 'rgba(0,0,0,.2)',
+                bounces: true,
+                pageParam: {
+                    type: "0",
+                    dealOpinion: "2",
+                    state: "" + i,
+                }
+            })
+        }
+        api.openFrameGroup({
+            name: 'group',
+            scrollEnabled: false,
+            rect: {
+                x: 0,
+                y: 120,
+                w: api.winWidth,
+                h: 'auto'
+            },
+            index: 0,
+            preload: 0,
+            frames: frames
+        }, function (ret, err) {
+
+        });
+    }
+
+    // 记录当前处于第几个frame页面
+    var nowIndex = 0;
+    function randomSwitchBtn(index) {
+        nowIndex = index;
+        var left = 25 * index;
+        document.getElementById("sliderProgressBar").style.left = left + "%";
+        // 设置字体颜色
+        document.getElementById("a" + index).style.color = "#6BF8FF";
+        // 设置其他的为默认颜色
+        for (var cur = 0; cur < 4; cur++) {
+            if (index != cur) {
+                document.getElementById("a" + cur).style.color = "";
+            }
+        }
+        // 切换页面
+        api.setFrameGroupIndex({
+            name: 'group',
+            index: index
+        });
+    }
+
+    /**
+     * 打开新增整改页面
+     */
+    function addRecord() {
+        api.openWin({
+            name: 'addRecordForm',
+            url: '../add/addRecordForm.html',
+            pageParam: {
+                state: "0"+nowIndex   // 新增后跳转到当前frame页面
+            }
+        });
+    }
+
+    /**
+     * 跳转执行新增方法
+     * @param format 整改信息
+     */
+    function addRecordMsg(format) {
+        // 跳转页面
+        api.execScript({
+            frameName : 'frame' + nowIndex,
+            script : 'addRecordMsg('+JSON.stringify(format)+');'
+        });
+    }
+</script>
+
+</html>

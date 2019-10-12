@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>公告搜索</title>
+    <link href="../../../../css/mui.css" rel="stylesheet" />
+    <link href="../../../../css/layout.css" rel="stylesheet" />
+    <link href="../../../../css/envDetail.css" rel="stylesheet" />
+</head>
+<body>
+<header class="mui-bar-nav mui-bar-transparent">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="APIUtils.goBeforePage()"></a>
+    <h1 class="mui-title">公告搜索</h1>
+</header>
+<div style="height:44px;"></div>
+<form id="projectData" onsubmit="getSearch()">
+    <div class="mui-content-padded">
+        <div style="border-left:1px solid #3279a1;border-right:1px solid #3279a1">
+            <div class="mui-input-group ">
+                <div class="bgblue pdlr10">
+                    <div class="mui-input-row">
+                        <input style="padding: 10px 0px" type="text" placeholder="标题" id="newsTitle">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mui-input-group ">
+                <div class="bgblue pdlr10">
+                    <div class="mui-input-row ">
+                        <div class="lineHeight40" onclick="showDatastatus()">
+                            <span class="fblue2 f17" id="datastatus" value="">公告状态</span>
+                            <div class="mui-icon mui-icon-arrowdown fr lineHeight40"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mui-content-padded">
+        <button id="searchButton" type="button" class="mui-btn mui-btn-block mybtn" onclick="getSearch()">搜索</button>
+    </div>
+</form>
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/js/APIUtils.js"></script>
+<script type="text/javascript" src="../../../../script/js/business/business-cooperative.js"></script>
+<script type="text/javascript">
+    // 上一个页面传过来的searchData
+    var pageParam = {};
+    apiready = function() {
+        $api.fixStatusBar( $api.dom('header'));
+        pageParam = api.pageParam;
+        if(pageParam["datastatus"] != null && pageParam["datastatus"] != undefined && pageParam["datastatus"] != "") {
+            $api.dom('#datastatus').value = pageParam["datastatus"]; //作为查询条件
+            $api.dom('#datastatus').innerHTML = pageParam["datastatusText"]; //用于用户查看
+        }
+        $api.dom('#newsTitle').value = pageParam["newsTitle"] == undefined || pageParam["newsTitle"] == null || pageParam["newsTitle"] == "" ? "" : pageParam["newsTitle"];
+    };
+    /**
+     * 设置查询条件并返回上一页面
+     */
+    function getSearch() {
+        var datastatus = $api.dom('#datastatus').value;
+        var datastatusText = $api.dom('#datastatus').innerHTML;
+        var newsTitle = $api.dom('#newsTitle').value;
+        pageParam = {datastatus: datastatus, datastatusText: datastatusText, newsTitle: newsTitle};
+        api.execScript({
+            name: 'notificationAnnouncement',
+            frameName : 'notificationAnnouncementBody',
+            script : 'setSearch('+JSON.stringify(pageParam)+');'
+        });
+        APIUtils.goBeforePage();
+    }
+    /**
+     * 状态选择器
+     */
+    function showDatastatus() {
+        APIUtils.showProgress("提示", "正在加载中....");
+        cooperativeModule.getAllDatastatus(function(ret, err) {
+            APIUtils.hideProgress();
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            var data = ret.data;
+            if(data==null || data.length==0) {
+                APIUtils.showToast("无更多数据加载",2000);
+                return;
+            }
+            // 封装项目对象
+            var projectData = new Array();
+            for(var i=0; i<data.length; i++) {
+                projectData[i] = {text: data[i].dictname, value: data[i].dictcode};
+            }
+            APIUtils.openUIMultiSelector("选择公告状态", projectData, "datastatus");
+        });
+    }
+
+</script>
+
+</body>
+</html>

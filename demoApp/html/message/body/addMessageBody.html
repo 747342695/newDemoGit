@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>新增消息</title>
+    <link href="../../../css/mui.css" rel="stylesheet" />
+    <link href="../../../css/layout.css" rel="stylesheet" />
+</head>
+
+<body>
+<header class="mui-bar-nav mui-bar-transparent" style="display: none">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="APIUtils.goBeforePage()"></a>
+    <h1 class="mui-title">新增消息</h1>
+</header>
+<div style="height:10px;"></div>
+<form>
+    <!--<h5 class="pl10 fblue2 lineHeight34">工地信息</h5>-->
+    <div class="mui-input-group ">
+        <div class="bgblue">
+            <div class="mui-input-row" style="height: 30%; ">
+                <textarea id="textarea" rows="15"  placeholder="...."></textarea>
+            </div>
+        </div>
+
+    </div>
+    <br/>
+    <!---底部导航-->
+    <ul class="ulist">
+        <li>
+            <div onclick="selectPeople()"> <img src="../../../image/plane.png" style="width:15px;height:15px;"/>&nbsp;&nbsp;发送给谁</div>
+        </li>
+    </ul>
+</form>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/js/APIUtils.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        $api.fixStatusBar( $api.dom('header'));
+    };
+    /**
+     * 跳转新增消息页面，附带消息内容
+     */
+    function selectPeople() {
+        var content = $api.dom("#textarea").value;
+        if(content == null || content == "" || content == undefined) {
+            APIUtils.showToast("消息不能发送为空", 2000);
+            return;
+        }
+        // 处理富文本框的回车符，存储在数据库使用<br/>
+        content = content.replace(/(\n)|(\r)/g, "<br/>");
+        var contentData = {content: content};
+        APIUtils.goToSearch('selectPeople', '../selectPeople.html', contentData);
+    }
+</script>
+</body>
+</html>

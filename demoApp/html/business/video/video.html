@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"  content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>视频播放--暂时无用</title>
+    <link href="../../../css/mui.css" rel="stylesheet"/>
+    <link href="../../../css/layout.css" rel="stylesheet"/>
+    <link href="../../../css/siteDetail.css" rel="stylesheet"/>
+    <link href="../../../css/index.css" rel="stylesheet"/>
+    <link href="../../../css/video.css" rel="stylesheet"/>
+</head>
+<body>
+<header  class="mui-bar-nav mui-bar-transparent">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left"></a>
+    <h1 class="mui-title" id="myTitle">大门口视频</h1>
+</header>
+<div style="height:44px;"></div>
+<div class="vidiolist">
+    <ul>
+        <li>
+            <div  id="showVideo0" frameborder="0" src="https://v.qq.com/txp/iframe/player.html?vid=o0415v4l8ux" allowFullScreen="true"
+                    width="100%"></div>
+        </li>
+    </ul>
+</div>
+</body>
+<script src="../../../script/api.js"></script>
+<script src="../../../script/js/APIUtils.js"></script>
+<script>
+    apiready = function () {
+        // 获取传递来的视频Id
+        var deviceCode = api.pageParam.deviceCode;
+        var module = api.require('easyVideoPlayer');
+        var param = {
+            msg : 'http://61.184.202.35:6713/mag/hls/'+deviceCode+'/1/live.m3u8",'
+        };
+        module.playVideo(param);
+    }
+</script>
+</html>

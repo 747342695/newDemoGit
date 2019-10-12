@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title>关于我们</title>
+	<link href="../../css/mui.css" rel="stylesheet" />
+	<link href="../../css/layout.css" rel="stylesheet" />
+	<link href="../../css/siteDetail.css" rel="stylesheet" />
+	<link href="../../css/index.css" rel="stylesheet" />
+</head>
+<body>
+<header class="mui-bar-nav mui-bar-transparent" >
+	<a   class="mui-icon mui-icon-left-nav mui-pull-left"  onclick="APIUtils.goBeforePage();"></a>
+	<h1 class="mui-title">关于我们</h1>
+</header>
+<!--<div id="logolpra" style="height:40px;"></div>-->
+<div id="logolpra"></div>
+<div class="img flex-col h-center v-center">
+	<img src="../../image/hqwllogo.png" width="20%" style="border-radius: 8px;">
+</div>
+<div style="height:56px;"></div>
+<div class="f16 fblue2 tc" id="appVersion"></div>
+
+<div class="footer" align="center">
+	服务条款 | 隐私协议</br>
+	<p class="fblue2">copyright@2014-2019 仙桃建管通版权所有</p>
+</div>
+<style>
+	.footer {
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+		height: 100px;
+	}
+</style>
+</body>
+<script src="../../script/api.js"></script>
+<script src="../../script/js/APIUtils.js"></script>
+<script>
+    apiready = function () {
+        $api.fixStatusBar( $api.dom('header'));
+        // 获取手机的高，获取元素的高，返回页面可显示的数据条目
+
+        // alert($api.offset($api.dom('header')).h);
+        // 查询项目分页查询
+        // videoModule.queryProjectList({pageSize:20,pageIndex:0},function (ret,err) {
+        //
+        // });
+		//获取手机高度
+        var phoneheight = api.winHeight;
+        var statusHeight = (api.systemType == 'ios') ? 20 : 25; // 判断状态栏高度
+
+		var height=(phoneheight-statusHeight)/4-$api.dom("header").offsetHeight;
+        document.getElementById("logolpra").style.height=height+"px";
+        //获取，显示 版本号
+        var version= api.appVersion;
+        $api.dom('#appVersion').innerHTML= "仙桃建管通<br/>Version"+version;
+
+    };
+</script>
+</html>

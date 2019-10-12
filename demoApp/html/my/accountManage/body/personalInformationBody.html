@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>个人信息</title>
+    <link href="../../../../css/mui.css" rel="stylesheet" />
+    <link href="../../../../css/layout.css" rel="stylesheet" />
+    <link href="../../../../css/siteDetail.css" rel="stylesheet" />
+    <link href="../../../../css/index.css" rel="stylesheet" />
+</head>
+
+<body>
+<header class="mui-bar-nav mui-bar-transparent" style="display: none;">
+    <a  class="mui-icon mui-icon-left-nav mui-pull-left"  onclick="goBeforePage()"></a>
+    <h1 class="mui-title">个人信息</h1>
+</header>
+<!--<div style="height:40px;"></div>-->
+<ul class="ulist" >
+    <li style="padding-top:15px">
+        <div class="v-center h-center lineHeight40" style="height: 40px">头像:
+            <div class="status" style="border: none">
+                <img src="../../../../image/nofind.gif" height="40px" id="headImg" onerror="APIUtils.noFind()"
+                     onclick="APIUtils.openPhotoBrowser([this.src])" />
+            </div>
+        </div>
+    </li>
+    <li>
+        <div >员工编号:<div class="status" style="border: none" id="empcode"></div></div>
+    </li>
+    <li>
+        <div >员工昵称:<div class="status" style="border: none" id="empname"></div></div>
+    </li>
+    <li>
+        <div >真实姓名:<div class="status" style="border: none" id="realname"></div></div>
+    </li>
+    <li>
+        <div >性别:<div class="status" style="border: none" id="genderText"></div></div>
+    </li>
+    <li>
+        <div >个人邮箱:<div class="status" style="border: none" id="pemail"></div></div>
+    </li>
+    <li>
+        <div >手机号码:<div class="status" style="border: none" id="mobileno"></div></div>
+    </li>
+<!--    <li>-->
+<!--        <div >年龄：<div class="status" style="border: none" id="age"></div></div>-->
+<!--    </li>-->
+<!--    <li>-->
+<!--        <div>岗位：<div class="status" style="border: none" id="position"></div></div>-->
+<!--    </li>-->
+<!--    <li>-->
+<!--        <div> 项目名:<div class="status" style="border: none" id="projectName"></div></div>-->
+<!--    </li>-->
+</ul>
+</body>
+
+
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/dot.min.js"></script>
+<script type="text/javascript" src="../../../../script/js/APIUtils.js"></script>
+<script type="text/javascript" src="../../../../script/js/my/accountManage/accountManage-personalInformation.js"></script>
+
+<script>
+    apiready = function () {
+        $api.fixStatusBar( $api.dom('header'));
+        //从缓存中拿到staffid
+        var staffId = $api.getStorage(KeyMap.CURRENT_USER)["staffId"];
+        APIUtils.showProgress("提示", "正在加载中....");
+        personalModule.getPersonalInfo(staffId,function (ret, err){
+            //关闭提示
+            APIUtils.hideProgress();
+            //判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            let {headImg = "", empcode = "", empname = "", realname = "", genderText = "", pemail = "", mobileno = ""} = ret.object;
+            //渲染
+            $api.dom('#headImg').src= headImg;
+            $api.dom('#empcode').innerHTML= empcode;
+            $api.dom('#empname').innerHTML= empname;
+            $api.dom('#realname').innerHTML= realname;
+            $api.dom('#genderText').innerHTML= genderText;
+            $api.dom('#pemail').innerHTML= pemail;
+            $api.dom('#mobileno').innerHTML= mobileno;
+        });
+    }
+
+    function goBeforePage() {
+        APIUtils.goBeforePage()
+    }
+</script>
+</html>

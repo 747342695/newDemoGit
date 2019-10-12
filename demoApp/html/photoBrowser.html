@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>图片浏览器</title>
+    <link href="../css/api.css" rel="stylesheet" />
+</head>
+<body onclick="closePhotoBrowser()">
+<div >
+
+</div>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/js/APIUtils.js"></script>
+<script type="text/javascript">
+    var photoBrowser = null;
+    apiready = function () {
+        photoBrowser = api.require('UIPhotoViewer');
+        photoBrowser.open({
+            images: api.pageParam.images,
+            activeIndex: api.pageParam.index,
+            bgColor: '#000'
+        }, function(ret, err) {
+            if (!ret) {
+                APIUtils.showToast(JSON.stringify(err))
+            }
+            if(ret.eventType == 'click') {
+                closePhotoBrowser();
+            }
+        });
+    };
+
+    /**
+     * 关闭图片浏览器
+     */
+    function closePhotoBrowser() {
+        photoBrowser.close();
+        // api.closeWin({
+        //     animation: {
+        //         type: "push",
+        //         subType: "from_top",
+        //         duration: 500
+        //     }
+        // });
+        APIUtils.goBeforePage();
+    }
+</script>
+</body>
+</html>

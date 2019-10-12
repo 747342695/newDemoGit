@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>使用设置</title>
+    <link href="../../css/mui.css" rel="stylesheet" />
+    <link href="../../css/layout.css" rel="stylesheet" />
+    <link href="../../css/siteDetail.css" rel="stylesheet" />
+    <link href="../../css/index.css" rel="stylesheet" />
+</head>
+<body>
+<header class="mui-bar-nav mui-bar-transparent" >
+    <a  class="mui-icon mui-icon-left-nav mui-pull-left"  onclick=" APIUtils.goBeforePage()"></a>
+    <h1 class="mui-title">使用设置</h1>
+</header>
+<div style="height:40px;"></div>
+<ul class="ulist">
+    <li style="padding-top:15px;">
+        <div onclick="clearnCach()">清除缓存:<div class="status" style="border: none" id="cacheSize" ></div></div>
+    </li>
+    <li>
+        <div onclick="fnCheckUpdate()">当前版本:<div class="status" style="border: none" id="appVersion"></div></div>
+    </li>
+</ul>
+
+<div class="footer " align="center">
+    <div class="mui-content-padded">
+        <button type="button" class="mui-btn mui-btn-block mybtn" onclick="exitLogin()">退出</button>
+    </div>
+</div>
+</body>
+<style >
+    .footer{position:absolute;bottom:0;width:100%;height:100px;}
+</style>
+<script src="../../script/api.js"></script>
+<script src="../../script/js/APIUtils.js"></script>
+<script src="../../script/mui.js"></script>
+<script>
+    apiready = function () {
+        $api.fixStatusBar( $api.dom('header'));
+        // 获取手机的高，获取元素的高，返回页面可显示的数据条目
+        // alert($api.offset($api.dom('header')).h);
+        // 查询项目分页查询
+        // videoModule.queryProjectList({pageSize:20,pageIndex:0},function (ret,err) {
+        //
+        // });
+        //获取缓存
+        api.getCacheSize(function(ret, err) {
+            var size = parseInt(ret.size/1024/1024) + 'MB';
+            var cacheSize = $api.byId('cacheSize');
+            cacheSize.innerHTML = size;
+        });
+        //获取版本号
+       var version= api.appVersion;
+        $api.dom('#appVersion').innerHTML= version;
+
+    }
+    /**
+     * 清除缓存按钮
+     * isClear 是否清除账户信息
+     */
+    function clearnCach(isClear){
+        api.clearCache(function() {
+            if(isClear) {
+                // 清除localStorage的所有数据
+                $api.clearStorage();
+            }
+            APIUtils.showToast("清除完成", 2000);
+        });
+        api.getCacheSize(function(ret, err) {
+            var size = parseInt(ret.size/1024) + 'KB';
+            var cacheSize = $api.byId('cacheSize');
+            cacheSize.innerHTML = size;
+        });
+    };
+
+    //退出
+    function exitLogin() {
+        //清除缓存
+        clearnCach(true);
+        // 关闭登录window页面
+        api.closeWin({name: "login"});
+        // 返回登录页面
+        APIUtils.goToPageByWindow("login",'../../login.html');
+    }
+
+    // 版本更新
+    function fnCheckUpdate () {
+        var mam = api.require('mam');
+        mam.checkUpdate(function(ret, err){
+            if (ret && ret.status) {
+                if(!ret.result.update){
+                    mui.alert('当前已是最新版本，版本号：' + api.appVersion, '版本更新', function() {
+
+                    });
+                } else {
+                    var btnArray = ['以后再说', '马上更新'];
+                    mui.confirm('已发布最新版本，建议您尽快更新。版本号：' + ret.result.version, '有新版本', btnArray, function(e) {
+                        if (e.index == 1) {
+                            // 马上更新
+                        }
+                    });
+                }
+            }
+        });
+    }
+</script>
+</html>

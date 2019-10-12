@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>视频监控</title>
+    <!--<script src="../../script/jquery-3.1.1.min.js"></script>-->
+    <!--<script src="../../script/mui.js"></script>-->
+    <link href="../../css/mui.css" rel="stylesheet"/>
+    <link href="../../css/layout.css" rel="stylesheet"/>
+    <link href="../../css/siteDetail.css" rel="stylesheet"/>
+    <link href="../../css/index.css" rel="stylesheet"/>
+    <style>
+
+    </style>
+</head>
+
+<body>
+<header class="mui-bar-nav mui-bar-transparent" id="topbar">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="APIUtils.goBeforePage()"></a>
+    <h1 class="mui-title">视频监控</h1>
+</header>
+
+</body>
+
+<script src="../../script/api.js"></script>
+<script src="../../script/js/APIUtils.js"></script>
+<script>
+    apiready = function () {
+        $api.fixStatusBar($api.dom('header'));
+        var header = $api.byId('topbar');
+        //适配iOS7+，Android4.4+状态栏沉浸式效果，详见config文档statusBarAppearance字段
+        //$api.fixStatusBar(header);
+        //动态计算header的高度，因iOS7+和Android4.4+上支持沉浸式效果，
+        //因此header的实际高度可能为css样式中声明的44px加上设备状态栏高度
+        //其中，IOS状态栏高度为20px，Android为25px
+        var headerH = $api.offset(header).h;
+        //frame的高度为当前window高度减去header和footer的高度
+        var frameH = api.winHeight - headerH;
+        APIUtils.goToPageByFrame('projectVideoBody', {
+            x: 0,
+            y: 34 + (api.systemVersion == "ios" ? 27 : 32),
+            w: api.winWidth,
+            h: frameH
+        }, './body/videoMonitoringBody.html', api.pageParam)
+
+    };
+
+
+
+
+</script>
+</html>

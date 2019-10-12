@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>新增安全日志评论</title>
+    <link href="../../../../css/mui.css" rel="stylesheet"/>
+    <link href="../../../../css/layout.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="mui-bar-nav mui-bar-transparent" id="topbar">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="APIUtils.goBeforePage()"></a>
+    <h1 class="mui-title">评论</h1>
+</header>
+<div class="mui-content-padded">
+    <button type="button" class="mui-btn mui-btn-block mybtn" style="margin: 0px;width: 98%;left:1%;" onclick="commitComment()">提交</button>
+</div>
+<script src="../../../../script/api.js"></script>
+<script src="../../../../script/js/APIUtils.js"></script>
+<script>
+    apiready = function () {
+        $api.fixStatusBar($api.dom('header'));
+        var header = $api.byId('topbar');
+        //适配iOS7+，Android4.4+状态栏沉浸式效果，详见config文档statusBarAppearance字段
+        //$api.fixStatusBar(header);
+        //动态计算header的高度，因iOS7+和Android4.4+上支持沉浸式效果，
+        //因此header的实际高度可能为css样式中声明的44px加上设备状态栏高度
+        //其中，IOS状态栏高度为20px，Android为25px
+        var headerH = $api.offset(header).h;
+        //frame的高度为当前window高度减去header和footer的高度
+        //95为底部按钮高度
+        var frameH = api.winHeight - headerH - 95;
+        APIUtils.goToPageByFrame('addLogFormBody', {
+            x: 0,
+            y: 34 + (api.systemVersion == "ios" ? 27 : 32),
+            w: api.winWidth,
+            h: frameH,
+            bounces:false
+        }, '../body/addLogFormBody.html', api.pageParam)
+    };
+
+    /**
+     * 提交评论
+     */
+    function commitComment() {
+        api.execScript({
+            name: 'addLogForm',
+            frameName : 'addLogFormBody',
+            script : 'commitComment();'
+        });
+    }
+</script>
+</body>
+</html>

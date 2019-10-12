@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title>选择人员</title>
+	<link href="../../../css/mui.css" rel="stylesheet" />
+	<link href="../../../css/layout.css" rel="stylesheet" />
+</head>
+<body>
+<header class="mui-bar-nav mui-bar-transparent" style="display: none">
+	<a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="APIUtils.goBeforePage()"></a>
+	<h1 class="mui-title">选择人员</h1>
+</header>
+<div style="height:10px;"></div>
+<div class="mui-col-sm-8 mui-col-xs-8 fl">
+	<div class="mui-input-row mui-search">
+		<div type="search" onclick="searchPeople()"><span class="mui-icon mui-icon-search"></span><span id="searchContent">搜索</span></div>
+	</div>
+</div>
+<div class="mui-col-sm-4 mui-col-xs-4 fl mb15">
+	<button value="查看全部" class="searchBtn" onclick="clickLoad()">查看全部</button>
+</div>
+<ul id="peopleDiv" style="margin-bottom:42px;">
+	<li id="peopleLi" style="visibility:hidden;">
+		<div class="mui-col-xs-2 mui-col-sm-2 fl flex-col v-center h-center mui-checkbox" style="height: 60px;">
+			<input type="checkbox" name="user" />
+		</div>
+		<div class="mui-col-xs-2 mui-col-sm-2 fl">
+			<img src="../../../image/avoda.jpg" width="90%" style="border-radius:8px;" />
+		</div>
+		<div class="mui-col-xs-5 mui-col-sm-5 fl flex-col v-center h-center" style="flex-direction: column;height: 60px;">
+			<p class="fblue2 f16">李辉<span class="ml10"><img src="../../../image/men.png" width="12px"/></span></p>
+			<p>现场负责人</p>
+		</div>
+		<div class="mui-col-xs-3 mui-col-sm-3 fl tr fblue2 flex-col v-center h-center" style="height: 60px;">
+			18856654789
+		</div>
+		<div class="clear"></div>
+	</li>
+</ul>
+<script id="peopleDot" type="text/x-dot-template">
+	{{ for(var x in it) { }}
+	<li>
+		<div class="mui-col-xs-2 mui-col-sm-2 fl flex-col v-center h-center mui-checkbox" style="height: 60px;line-height: 60px;">
+			<input type="checkbox" name="user" value="{{= it[x].No}}" style="line-height: 60px;"/>
+		</div>
+		<div class="mui-col-xs-3 mui-col-sm-3 fl">
+			<img src="{{= it[x].peopleHeadImg}}" onerror="APIUtils.noFind()" onclick="APIUtils.openPhotoBrowser([this.src])" width="90%" style="border-radius:8px;" />
+		</div>
+		<div class="mui-col-xs-7 mui-col-sm-7 fl" onclick="changeCheckBox('{{= it[x].No}}')">
+			<p class="fblue2 f16">{{= it[x].projectName}}</p>
+			<p>负责人:{{= it[x].peopleName}}<span class="ml10"><img src="{{= it[x].peopleSexSrc}}" width="12px"/></span></p>
+			<p>手机号码:{{= it[x].peoplePhone}}</p>
+		</div>
+		<div class="clear"></div>
+	</li>
+	{{ } }}
+</script>
+<script type="text/javascript" src="../../../script/dot.min.js"></script>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/js/APIUtils.js"></script>
+<script type="text/javascript" src="../../../script/mui.js"></script>
+<script type="text/javascript" src="../../../script/js/message/message.js"></script>
+<script type="text/javascript">
+	// 数据加载参数（页码大小、页码起始页、搜索条件）
+	var searchDataJson = {pageSize: 0, pageIndex: 0, searchData: [{}]};
+	// 搜索参数
+	var searchData = {projectName: "", projectId: "", peopleName: ""};
+	// 存储所有负责人信息
+	var peopleDataArr = new Array();
+
+	apiready = function() {
+		$api.fixStatusBar( $api.dom('header'));
+		searchDataJson.pageSize = APIUtils.getPageSize(null, "peopleLi");
+		// 初始监听事件
+		fnInitEvent();
+		// 初始加载分页数据
+		loadPeople();
+	};
+
+	/**
+	 * 选择复选框
+	 * @param n 人员序号
+	 */
+	function changeCheckBox(n) {
+		// 获取所有多选框
+		var boxes = document.getElementsByName("user");
+		// 序号转为数值下标
+		var i = parseInt(n)-1;
+		boxes[i].checked = !boxes[i].checked;
+	}
+
+	/**
+	 * 发送消息
+	 */
+	function sendMessage() {
+		var checkboxs = document.getElementsByName("user");
+		var msgs = new Array();
+		// 拿取所有勾选的人员信息
+		for(var i=0; i<checkboxs.length; i++) {
+			if(checkboxs[i].checked) {
+				msgs.push(peopleDataArr[checkboxs[i].value]);
+			}
+		}
+		// 没有选择人员时
+		if(msgs.length == 0) {
+			APIUtils.showToast("请至少选择一个人员发送信息", 2000);
+			return;
+		}
+		APIUtils.showProgress("提示", "正在发送中....");
+		messageModule.sendMessage(msgs, function(ret, err) {
+			APIUtils.hideProgress();
+			// 判断请求是否错误
+			if (!APIUtils.errorCatch(err)) {
+				return;
+			}
+			// 拿取发送消息成功条数
+			var successTotal = ret.object.successTotal;
+			// 所有信息都发送成功
+			if(successTotal == msgs.length) {
+			    // 关闭新增消息window页面
+                api.closeWin({
+                    name: 'addMessage'
+                });
+                mui.alert('信息发送成功', '成功', function() {
+                    APIUtils.goBeforePage();
+                });
+			} else if(successTotal == 0) {
+				// 所有发送失败
+				APIUtils.showToast("信息发送失败", 2000);
+			} else {
+				// 部分发送成功
+				APIUtils.showToast("成功发送"+successTotal+"条消息", 2000);
+			}
+		});
+	}
+	/**
+	 * 搜索框设置查询条件
+	 */
+	function setSearch(str) {
+		searchData = str;
+		// 设置数据加载参数
+		var searchJsonArr = new Array();
+		searchJsonArr.push({"name":"eq_projectId", "value": searchData.projectId});
+		searchJsonArr.push({"name":"like_peopleName", "value": searchData.peopleName});
+		searchDataJson.searchData = searchJsonArr;
+		// 清空之前条件查询的数据内容
+		$api.dom('#peopleDiv').innerHTML = "";
+		// 根据搜索条件重新搜索
+		searchDataJson.pageIndex = 0;
+		// 根据搜索条件刷新数据
+		loadPeople();
+	}
+	/**
+	 * 跳转人员搜索frame框，输入查询人员条件
+	 */
+	function searchPeople() {
+		APIUtils.goToSearch('peopleSearchForm', '../search/peopleSearchForm.html', searchData);
+	}
+	/**
+	 * 触发查询全部按钮
+	 */
+	function clickLoad() {
+		// 清空搜索参数数据
+		searchData = {projectName: "", projectId: "", peopleName: ""};
+		// 清空查询条件
+		searchDataJson.searchData = [{}];
+		// 清空之前条件查询的数据内容
+		$api.dom('#peopleDiv').innerHTML = "";
+		// 根据搜索条件重新搜索
+		searchDataJson.pageIndex = 0;
+		// 根据搜索条件刷新数据
+		loadPeople();
+	}
+	/**
+	 * 加载人员数据
+	 */
+	function loadPeople(isStart){
+		APIUtils.showProgress("提示", "正在加载中....");
+		messageModule.getPeople(searchDataJson, function(ret, err) {
+			APIUtils.hideProgress();
+			// 判断请求是否错误
+			if (!APIUtils.errorCatch(err)) {
+				return;
+			}
+			var peopleData = ret.data;
+			if(peopleData==null || peopleData.length==0) {
+				APIUtils.showToast("无更多数据加载",1000);
+				return;
+			}
+			// 设置dom元素序号内容
+			var no = searchDataJson.pageIndex*searchDataJson.pageSize+1;
+			var userName = JSON.parse($api.getStorage(KeyMap.CURRENT_USER).userInfo).staffName;
+			for (var i = 0; i < peopleData.length; i++) {
+				peopleData[i].No = no+i;
+				peopleDataArr[no+i] = {peopleName: peopleData[i].peopleName, peopleId: peopleData[i].peopleId,
+					projectId: peopleData[i].projectId,projectName: peopleData[i].projectName, content: api.pageParam.content, userName: userName};
+				if(peopleData[i].peopleSex == "男")
+					peopleData[i].peopleSexSrc = '../../../image/men.png';
+				else if(peopleData[i].peopleSex == "女")
+					peopleData[i].peopleSexSrc = '../../../image/women.png';
+			}
+			// 数据页码加一
+			searchDataJson.pageIndex++;
+			var interText = doT.template($api.dom("#peopleDot").innerHTML);
+			if(isStart == false) {
+				$api.append($api.dom('#peopleDiv'),interText(peopleData));
+			} else {
+				$api.dom('#peopleDiv').innerHTML = interText(peopleData);
+			}
+		});
+	}
+	/**
+	 * 初始化页面监听事件
+	 */
+	function fnInitEvent(){
+		/**上拉加载 */
+		api.addEventListener({
+			name:'scrolltobottom',
+			extra:{
+				threshold:10
+			}
+		}, function(ret, err){
+			// 继续请求数据
+			loadPeople(false);
+		});
+		/** 下拉刷新 */
+		api.setRefreshHeaderInfo({
+			bgColor: '#ccc',
+			textColor: '#fff',
+			textDown: '下拉刷新...',
+			textUp: '松开刷新...'
+		}, function(ret, err) {
+			searchDataJson.pageIndex = 0;
+			// 刷新数据
+			loadPeople();
+			// 取消下拉刷新效果
+			api.refreshHeaderLoadDone();
+		});
+	}
+</script>
+</body>
+</html>

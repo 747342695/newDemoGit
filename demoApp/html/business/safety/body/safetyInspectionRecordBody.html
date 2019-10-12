@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>安全检查</title>
+    <link href="../../../../css/mui.css" rel="stylesheet" />
+    <link href="../../../../css/layout.css" rel="stylesheet" />
+</head>
+
+<body>
+<header class="mui-bar-nav mui-bar-transparent" style="display: none">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="APIUtils.goBeforePage()"></a>
+    <h1 class="mui-title">安全检查</h1>
+</header>
+<div style="height:10px;"></div>
+
+<div class="mui-col-sm-8 mui-col-xs-8 fl">
+    <div class="mui-input-row mui-search">
+        <div type="search" onclick="searchSafetyRecord()"><span class="mui-icon mui-icon-search"></span><span id="searchContent">搜索</span></div>
+    </div>
+</div>
+<div class="mui-col-sm-4 mui-col-xs-4 fl mb15">
+    <button value="查看全部" class="searchBtn" onclick="clickLoad()">查看全部</button>
+</div>
+
+<div class="dubellinelist">
+    <ul id="saftyRecordDiv" style="margin-bottom:42px ">
+        <li id="saftyRecorddLi" style="visibility:hidden;">
+            <div class="mui-col-sm-1 mui-col-xs-1 fl tc lineHeight44">
+                1
+            </div>
+            <div class="mui-col-sm-8 mui-col-xs-8 fl">
+                无
+                <p>无</p>
+                <p>状态:无</p>
+            </div>
+            <div class="mui-col-sm-3 mui-col-xs-3 fl tc lineHeight44">
+                <a class="forange" tapmode="">更多</a>
+            </div>
+            <div class="clear"></div>
+        </li>
+    </ul>
+</div>
+<script id="safetyRecordDot" type="text/x-dot-template">
+    {{ for(var x in it) { }}
+    <li>
+        <div class="mui-col-sm-1 mui-col-xs-1 fl tc lineHeight44">
+            {{= it[x].No}}
+        </div>
+        <div class="mui-col-sm-8 mui-col-xs-8 fl">
+            {{= it[x].projectName}}
+            <p>施工单位:{{? it[x].projectSubName != null }}{{= it[x].projectSubName}}{{??}} &nbsp; {{?}}</p>
+            <p>检查人:{{? it[x].checkStaffName != null }}{{=it[x].checkStaffName}}{{??}} &nbsp; {{?}}</p>
+            <p>检查日期:{{? it[x].checkDate != null }}{{=it[x].checkDate}}{{??}} &nbsp; {{?}}</p>
+        </div>
+
+        <div class="mui-col-sm-3 mui-col-xs-3 fl tc lineHeight44">
+            <div class="forange" onclick="jumpInspectionDetail('{{= it[x].id}}')">更多</div>
+        </div>
+        <div class="clear"></div>
+    </li>
+    {{ } }}
+</script>
+<script type="text/javascript" src="../../../../script/dot.min.js"></script>
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/js/APIUtils.js"></script>
+<script type="text/javascript" src="../../../../script/js/business/business-supervision.js"></script>
+<script type="text/javascript">
+    // 数据加载参数（页码大小、页码起始页、搜索条件）
+    var searchDataJson = {pageSize: 0, pageIndex: 0, searchData: [{}]};
+    // 搜索参数
+    var searchData = {projectName: "", projectSubName: "",projectId:"",f1:"1",type:"0"};
+
+    apiready = function() {
+        $api.fixStatusBar( $api.dom('header'));
+        searchDataJson.pageSize = APIUtils.getPageSize(null, "saftyRecorddLi");
+        // 初始监听事件
+        fnInitEvent();
+        // 设置数据加载参数
+        var searchJsonArr = new Array();
+        searchJsonArr.push({"name":"eq_f1","value":searchData.f1});
+        searchJsonArr.push({"name":"eq_type","value":searchData.type})
+        searchDataJson.searchData = searchJsonArr;
+        // 初始加载分页数据
+        loadsaftyRecord();
+    };
+    /**
+     * 搜索框设置查询条件
+     */
+    function setSearch(str) {
+
+        searchData = str;
+        // 设置数据加载参数
+        var searchJsonArr = new Array();
+        // 安全检查固定条件
+        searchJsonArr.push({"name":"eq_f1","value":searchData.f1});
+        searchJsonArr.push({"name":"eq_type","value":searchData.type});
+        // 搜索条件
+        searchJsonArr.push({"name":"eq_projectId", "value":searchData.projectId });
+        searchJsonArr.push({"name":"like_projectSubName", "value":searchData.projectSubName });
+        searchDataJson.searchData = searchJsonArr;
+        // 清空之前条件查询的数据内容
+        $api.dom('#saftyRecordDiv').innerHTML = "";
+        // 根据搜索条件重新搜索
+        searchDataJson.pageIndex = 0;
+        // 根据搜索条件刷新数据
+        loadsaftyRecord();
+    }
+    /**
+     * 跳转安全检查详情页面
+     */
+    function jumpInspectionDetail(id) {
+        var idJson = {id: id};
+        APIUtils.goToPageByWindow('inspectionDetail', '../detail/safetyInspectionDetail.html', idJson);
+    }
+    /**
+     * 跳转安全检查搜索frame框，输入查询条件
+     */
+    function searchSafetyRecord() {
+        APIUtils.goToSearch('safetyRecordSearchForm', '../search/safetyRecordSearchForm.html', searchData);
+    }
+    /**
+     * 触发查询全部按钮
+     */
+    function clickLoad() {
+        // 清空搜索参数数据
+        searchData = {projectName: "", projectSubName: "",projectId: "",f1:"1",type:"0"};
+        // 清空查询条件
+        searchDataJson.searchData = [{}];
+        // 清空之前条件查询的数据内容
+        var searchJsonArr = new Array();
+        searchJsonArr.push({"name":"eq_f1","value":searchData.f1});
+        searchJsonArr.push({"name":"eq_type","value":searchData.type})
+        searchDataJson.searchData = searchJsonArr;
+
+        $api.dom('#saftyRecordDiv').innerHTML = "";
+        // 根据搜索条件重新搜索
+        searchDataJson.pageIndex = 0;
+        // 根据搜索条件刷新数据
+        loadsaftyRecord();
+    }
+    /**
+     * 加载安全检查数据
+     */
+    function loadsaftyRecord(isStart){
+
+        APIUtils.showProgress("提示", "正在加载中....");
+        superModule.getSafetyRecord(searchDataJson, function(ret, err) {
+            APIUtils.hideProgress();
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            var safetyRecordData = ret.data;
+            if(safetyRecordData==null || safetyRecordData.length==0) {
+                APIUtils.showToast("无更多数据加载",1000);
+                return;
+            }
+            // 设置dom元素序号内容
+            var no = searchDataJson.pageIndex*searchDataJson.pageSize+1;
+            for (var i = 0; i < safetyRecordData.length; i++) {
+                safetyRecordData[i].No = no+i;
+                safetyRecordData[i].checkDate=new Date(safetyRecordData[i].checkDate).Format("yyyy-MM-dd");
+            }
+            // 数据页码加一
+            searchDataJson.pageIndex++;
+            var interText = doT.template($api.dom("#safetyRecordDot").innerHTML);
+            if(isStart == false) {
+                $api.append($api.dom('#saftyRecordDiv'),interText(safetyRecordData));
+            } else {
+                $api.dom('#saftyRecordDiv').innerHTML = interText(safetyRecordData);
+            }
+        });
+    }
+    /**
+     * 初始化页面监听事件
+     */
+    function fnInitEvent(){
+        /**上拉加载 */
+        api.addEventListener({
+            name:'scrolltobottom',
+            extra:{
+                threshold:10
+            }
+        }, function(ret, err){
+            // 继续请求数据
+            loadsaftyRecord(false);
+        });
+        /** 下拉刷新 */
+        api.setRefreshHeaderInfo({
+            bgColor: '#ccc',
+            textColor: '#fff',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...'
+        }, function(ret, err) {
+            searchDataJson.pageIndex = 0;
+            // 刷新数据
+            loadsaftyRecord();
+            // 取消下拉刷新效果
+            api.refreshHeaderLoadDone();
+        });
+    }
+
+    /**
+     * 提交新增安全检查信息
+     * @param format 检查信息
+     */
+    function addInspectionMsg(format) {
+        APIUtils.showProgress("提示", "正在提交....");
+        superModule.addRecordFormat(format, function (ret, err) {
+            APIUtils.hideProgress();
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                api.execScript({
+                    name:"addSafetyRecordForm",
+                    frameName: "addSafetyRecordBody",
+                    script : 'APIUtils.showToast("提交失败", 2000);'
+                });
+                return;
+            }
+            APIUtils.showToast("提交成功", 2000);
+            // 刷新新增后当前的结果
+            // 初始化查询条件的起始页
+            searchDataJson.pageIndex = 0;
+            loadsaftyRecord();
+            // 关闭新增安全检查window页面
+            api.closeWin({
+                name: 'addSafetyRecordForm'
+            });
+        });
+    }
+</script>
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title>业务</title>
+	<link href="../../css/mui.css" rel="stylesheet" />
+	<link href="../../css/layout.css" rel="stylesheet" />
+	<link href="../../css/home.css" rel="stylesheet" />
+</head>
+<body>
+<header class="mui-bar-nav mui-bar-transparent" style="display: none">
+    <h1 class="mui-title">功能</h1>
+</header>
+<!--<div style="height:44px;"></div>-->
+<div class="ywbg">
+	<div class="mui-content">
+		<div class="mui-demo-container">
+			<ul class="mui-table-view mui-grid-view mui-grid-9" style="border-bottom: none;">
+				<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">
+					<div onclick="APIUtils.goToPageByWindow('projectManager','../business/projectManager.html')">
+						<div class="img flex-col h-center v-center">
+							<img src="../../image/m_ico1.png" width="80%">
+							<div style="font-size: 17px;">项目管理</div>
+						</div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">
+					<div onclick="APIUtils.goToPageByWindow('videoMonitoring','../business/videoMonitoring.html')">
+						<div class="img flex-col h-center v-center">
+							<img src="../../image/m_ico2.png" width="80%">
+							<div style="font-size: 17px;">视频监控</div>
+						</div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">
+					<div onclick="APIUtils.goToPageByWindow('envMonitoring','../business/envMonitoring.html')" >
+						<div class="img flex-col h-center v-center">
+							<img src="../../image/m_ico3.png" width="80%">
+							<div style="font-size: 17px;">环境监测</div>
+						</div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">
+					<div onclick="APIUtils.goToPageByWindow('safetySupervision','../business/safetySupervision.html')">
+						<div class="img flex-col h-center v-center">
+							<img src="../../image/m_ico4.png" width="80%">
+							<div style="font-size: 17px;">安全监督</div>
+						</div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">
+					<div onclick="APIUtils.goToPageByWindow('cooperativeOffice','../business/cooperativeOffice.html')">
+						<div class="img flex-col h-center v-center">
+							<img src="../../image/m_ico5.png" width="80%">
+							<div style="font-size: 17px;">协同办公</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+
+		</div>
+	</div>
+</div>
+<script src="../../script/api.js"></script>
+<script src="../../script/layout.js"></script>
+<script src="../../script/js/APIUtils.js"></script>
+<script>
+    apiready = function () {
+
+        fitBusinessHeight('ywbg', api.pageParam.marginHeader);
+    }
+
+</script>
+</body>
+</html>

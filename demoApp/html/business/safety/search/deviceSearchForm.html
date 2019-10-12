@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>设备搜索</title>
+    <link href="../../../../css/mui.css" rel="stylesheet" />
+    <link href="../../../../css/layout.css" rel="stylesheet" />
+    <link href="../../../../css/envDetail.css" rel="stylesheet" />
+</head>
+<body>
+<header class="mui-bar-nav mui-bar-transparent">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="APIUtils.goBeforePage()"></a>
+    <h1 class="mui-title">设备搜索</h1>
+</header>
+<div style="height:44px;"></div>
+<form id="deviceData" onsubmit="getSearch()">
+    <div class="mui-content-padded">
+        <div style="border-left:1px solid #3279a1;border-right:1px solid #3279a1">
+            <div class="mui-input-group ">
+                <div class="bgblue pdlr10">
+                    <div class="mui-input-row">
+                        <div class="lineHeight40" onclick="showProjectList();">
+                            <span class="fblue2 f17" id="projectName" value="">项目名称</span>
+                            <div class="mui-icon mui-icon-arrowdown fr lineHeight40"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mui-input-group ">
+                <div class="bgblue pdlr10">
+                    <div class="mui-input-row">
+                        <div class="lineHeight40" onclick="showDeviceList();">
+                            <span class="fblue2 f17" id="deviceTypeText" value="">设备类型</span>
+                            <div class="mui-icon mui-icon-arrowdown fr lineHeight40"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mui-input-group ">
+                <div class="bgblue pdlr10">
+                    <div class="mui-input-row">
+                        <input style="padding: 10px 0px" type="text" placeholder="设备名称" id="deviceName">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="mui-content-padded">
+        <button id="searchButton" type="button" class="mui-btn mui-btn-block mybtn" onclick="getSearch()">搜索</button>
+    </div>
+</form>
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/js/APIUtils.js"></script>
+<script type="text/javascript" src="../../../../script/js/business/business-supervision.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        var pageParam = {};
+        $api.fixStatusBar( $api.dom('header'));
+        var pageParam = api.pageParam;
+        if(pageParam["projectId"] != null && pageParam["projectId"] != undefined && pageParam["projectId"] != "") {
+            $api.dom('#projectName').value = pageParam["projectId"];
+            $api.dom('#projectName').innerHTML = pageParam["projectName"];
+        }
+       if(pageParam["deviceType"] !=null&&pageParam["deviceType"]!=undefined&& pageParam["deviceType"]!=""){
+            $api.dom('#deviceTypeText').value = pageParam["deviceType"];
+            $api.dom('#deviceTypeText').innerHTML = pageParam["deviceTypeText"];
+        }
+        // $api.dom('#deviceType').value = pageParam["deviceType"] == undefined || pageParam["deviceType"] == null || pageParam["deviceType"] == "" ? "" : pageParam["deviceType"];
+        $api.dom('#deviceName').value = pageParam["deviceName"] == undefined || pageParam["deviceName"] == null || pageParam["deviceName"] == "" ? "" : pageParam["deviceName"];
+    }
+
+    //设置查询条件并返回上一页面
+    function getSearch() {
+        var projectId = $api.dom('#projectName').value;
+        var projectName = $api.dom('#projectName').innerHTML;
+        var deviceType = $api.dom('#deviceTypeText').value;
+        var deviceTypeText = $api.dom('#deviceTypeText').innerHTML;
+        var deviceName = $api.dom('#deviceName').value;
+        pageParam = {projectName: projectName, projectId: projectId,deviceType:deviceType,deviceName:deviceName,deviceTypeText:deviceTypeText};
+        api.execScript({
+            name:"deviceManagement",
+            frameName : 'deviceManagementBody',
+            script : 'setSearch('+JSON.stringify(pageParam)+');'
+        });
+        APIUtils.goBeforePage();
+    }
+    /**
+     * 项目选择器
+     */
+    function showProjectList() {
+        APIUtils.showProgress("提示", "正在加载中....");
+        superModule.getAllProject(function(ret, err) {
+            APIUtils.hideProgress();
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            if(ret==null || ret.length==0) {
+                APIUtils.showToast("无更多数据加载",2000);
+                return;
+            }
+            // 封装项目对象
+            var stateData = new Array();
+            for(var i=0; i<ret.length; i++) {
+                stateData[i] = {text: ret[i].name, value: ret[i].id};
+            }
+            APIUtils.openUIMultiSelector("选择项目名称", stateData, "projectName");
+        });
+    }
+    /**
+     * 设备类型选择器
+     */
+    function showDeviceList() {
+        APIUtils.showProgress("提示", "正在加载中....");
+        superModule.getDeviceType(function(ret, err) {
+            APIUtils.hideProgress();
+            // 判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            if(ret==null || ret.length==0) {
+                APIUtils.showToast("无更多数据加载",2000);
+                return;
+            }
+            // 封装项目对象
+            var stateData = new Array();
+            var data = ret.data;
+            for(var i=0; i<data.length; i++) {
+                stateData[i] = {text: data[i].dictname, value: data[i].dictcode};
+            }
+            APIUtils.openUIMultiSelector("选择项目名称", stateData, "deviceTypeText");
+        });
+    }
+</script>
+
+</body>
+</html>

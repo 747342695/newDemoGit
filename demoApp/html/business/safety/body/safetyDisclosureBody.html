@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title>安全交底</title>
+	<link href="../../../../css/mui.css" rel="stylesheet" />
+	<link href="../../../../css/layout.css" rel="stylesheet" />
+	<link href="../../../../css/safetyDisclosure.css" rel="stylesheet" />
+	<script type="text/javascript" src="../../../../script/dot.min.js"></script>
+	<script type="text/javascript" src="../../../../script/api.js"></script>
+	<script type="text/javascript" src="../../../../script/js/APIUtils.js"></script>
+	<script type="text/javascript" src="../../../../script/js/business/business-supervision.js"></script>
+</head>
+<body>
+<header class="mui-bar-nav mui-bar-transparent" style="display: none">
+	<a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="APIUtils.goBeforePage()"></a>
+	<h1 class="mui-title">安全交底</h1>
+</header>
+<div style="height:10px;"></div>
+<div class="mui-col-sm-8 mui-col-xs-8 fl">
+	<div class="mui-input-row mui-search">
+        <div type="search" onclick="searchDisclosure()"><span class="mui-icon mui-icon-search"></span><span id="searchContent">搜索</span></div>
+	</div>
+</div>
+<div class="mui-col-sm-4 mui-col-xs-4 fl mb15">
+	<button value="查看全部" class="searchBtn" onclick="clickLoad()">查看全部</button>
+</div>
+<div class="mui-content-padded" id="disclosureDiv" style="margin-bottom: 42px;">
+	<!--    模板-->
+	<div class="disItem" id="disclosureLi" style="visibility:hidden">
+		<div class="mui-col-xs-3 mui-col-sm-3 fl">
+			<img src="../../../../image/avoda.jpg" width="85%" style="border-radius:8px;" />
+		</div>
+		<div class="mui-col-xs-9 mui-col-sm-9 fl">
+			<a href="#">
+				<div class="bgblue">
+					<p class="f16">无</p>
+					<p class="fblue2">交底人：无</p>
+					<p class="f16">无</p>
+					<div class="iemcontentImg mt10">
+					</div>
+				</div>
+			</a>
+		</div>
+        <div class="clear"></div>
+	</div>
+</div>
+<script id="disclosureDot" type="text/x-dot-template">
+	{{ for(var x in it) { }}
+	<div class="disItem">
+		<div class="mui-col-xs-3 mui-col-sm-3 fl">
+			<img src="{{= it[x].createImg}}" onerror="APIUtils.noFind()" width="85%" style="border-radius:8px;"
+				 onclick="APIUtils.openPhotoBrowser([this.src])"/>
+		</div>
+		<div class="mui-col-xs-9 mui-col-sm-9 fl">
+			<div>
+				<div class="bgblue">
+					<div onclick="jumpDisclosureDetail('{{= it[x].id}}')">
+						<p class="f16">{{? it[x].projectName != null }} {{= it[x].projectName}} {{??}} &nbsp; {{?}}</p>
+						<p class="fblue2">交底人：{{? it[x].createName != null }} {{= it[x].createName}} {{??}} &nbsp; {{?}}</p>
+						<p class="fblue2">交底工种：{{? it[x].professionText != null }} {{= it[x].professionText}} {{??}} &nbsp; {{?}}</p>
+						<p class="fblue2">交底时间：{{? it[x].createtime != null }} {{= it[x].createtime}} {{??}} &nbsp; {{?}}</p>
+						<p class="f16 wrapTwo">{{? it[x].content != null }} {{= it[x].content}} {{??}} &nbsp; {{?}}</p>
+					</div>
+					<div class="iemcontentImg mt10">
+						{{ for(var t in it[x].imgs) { }}
+						{{ if(t < 4) { }}
+						<div class="mui-col-xs-3 mui-col-sm-3 fl">
+							<img name="imgs{{=x}}" src="{{= it[x].imgs[t].filepath }}" onerror="APIUtils.noFind()"
+								 width="90%" onclick="APIUtils.openPhotoBrowser(null, '{{=t}}', this.name)"/>
+						</div>
+						{{ } }}
+						{{ } }}
+						<div class="clear"></div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+        <div class="clear"></div>
+	</div>
+	{{ } }}
+</script>
+<script type="text/javascript">
+	// 数据加载参数（页码大小、页码起始页、搜索条件）
+	var searchDataJson = {pageSize: 0, pageIndex: 0, searchData: [{}]};
+	// 搜索参数
+	var searchData = {projectName: "", projectId: "", profession: "", professionName:"", start_createtime:"", end_createtime: "", type:"2"};
+
+	apiready = function() {
+		$api.fixStatusBar( $api.dom('header'));
+		searchDataJson.pageSize = APIUtils.getPageSize(null, "disclosureLi");
+		// 初始监听事件
+		fnInitEvent();
+		// 初始加载分页数据  带初始条件
+		setSearch(searchData);
+	};
+
+	/**
+	 * 搜索框设置查询条件
+	 */
+	function setSearch(str) {
+		searchData = str;
+		// 设置数据加载参数
+		var searchJsonArr = new Array();
+		// 安全交底状态为2
+		searchJsonArr.push({"name":"eq_type", "value":searchData.type});
+		// 搜索输入条件
+		searchJsonArr.push({"name":"eq_projectId", "value": searchData.projectId});
+		searchJsonArr.push({"name":"eq_profession", "value": searchData.profession});
+        if(searchData.start_createtime != null && searchData.start_createtime != "" && searchData.start_createtime != undefined)
+		    searchJsonArr.push({"name":"ged_createtime", "value": searchData.start_createtime});
+        if(searchData.end_createtime != null && searchData.end_createtime != "" && searchData.end_createtime != undefined)
+            searchJsonArr.push({"name":"led_createtime", "value": searchData.end_createtime});
+		searchDataJson.searchData = searchJsonArr;
+        // 清空之前条件查询的数据内容
+        $api.dom('#disclosureDiv').innerHTML = "";
+        // 根据搜索条件重新搜索
+        searchDataJson.pageIndex = 0;
+        // 根据搜索条件刷新数据
+        loadDisclosure();
+	}
+	/**
+	 * 跳转安全交底详情页面
+	 */
+	function jumpDisclosureDetail(id) {
+		var idJson = {id: id};
+		APIUtils.goToPageByWindow('disclosureDetail', '../detail/disclosureDetail.html', idJson);
+	}
+	/**
+	 * 跳转安全交底搜索frame框，输入查询交底条件
+	 */
+	function searchDisclosure() {
+		APIUtils.goToSearch('disclosureSearchForm', '../search/disclosureSearchForm.html', searchData);
+	}
+	/**
+	 * 触发查询全部按钮
+	 */
+	function clickLoad() {
+	    // 清空搜索参数数据
+        searchData = {projectName: "", projectId: "", profession: "", professionName:"", start_createtime:"", end_createtime: "", type:"2"};
+		// 清空之前条件查询的数据内容
+		$api.dom('#disclosureDiv').innerHTML = "";
+		// 根据搜索条件重新搜索
+		searchDataJson.pageIndex = 0;
+        // 初始加载分页数据  带初始条件
+        setSearch(searchData);
+	}
+	/**
+	 * 加载安全交底数据
+	 */
+	function loadDisclosure(isStart){
+		APIUtils.showProgress("提示", "正在加载中....");
+		superModule.getLog(searchDataJson, function(ret, err) {
+			APIUtils.hideProgress();
+			// 判断请求是否错误
+			if (!APIUtils.errorCatch(err)) {
+				return;
+			}
+			var disclosureData = ret.data;
+			if(disclosureData==null || disclosureData.length==0) {
+				APIUtils.showToast("无更多数据加载",2000);
+				return;
+			}
+			for(var i=0; i<disclosureData.length; i++) {
+				disclosureData[i].createtime = new Date(disclosureData[i].createtime).Format("yyyy-MM-dd");
+				// 移除html标签
+				disclosureData[i].content = disclosureData[i].content == null ? "" : disclosureData[i].content.replace(/<.*?>/g,"");
+			}
+			// 数据页码加一
+			searchDataJson.pageIndex++;
+			var interText = doT.template($api.dom("#disclosureDot").innerHTML);
+			if(isStart == false) {
+				$api.append($api.dom('#disclosureDiv'),interText(disclosureData));
+			} else {
+				$api.dom('#disclosureDiv').innerHTML = interText(disclosureData);
+			}
+		});
+	}
+	/**
+	 * 初始化页面监听事件
+	 */
+	function fnInitEvent(){
+		/**上拉加载 */
+		api.addEventListener({
+			name:'scrolltobottom',
+			extra:{
+				threshold:10
+			}
+		}, function(ret, err){
+			// 继续请求数据
+			loadDisclosure(false);
+		});
+		/** 下拉刷新 */
+		api.setRefreshHeaderInfo({
+			bgColor: '#ccc',
+			textColor: '#fff',
+			textDown: '下拉刷新...',
+			textUp: '松开刷新...'
+		}, function(ret, err) {
+			searchDataJson.pageIndex = 0;
+			// 刷新数据
+			loadDisclosure();
+			// 取消下拉刷新效果
+			api.refreshHeaderLoadDone();
+		});
+	}
+</script>
+</body>
+
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>我的</title>
+    <script src="../../script/mui.js"></script>
+    <link href="../../css/mui.min.css" rel="stylesheet"/>
+    <link href="../../css/layout.css" rel="stylesheet"/>
+    <link href="../../css/home.css" rel="stylesheet"/>
+    <script type="text/javascript" src="../../script/api.js"></script>
+    <script type="text/javascript" src="../../script/dot.min.js"></script>
+    <script type="text/javascript" src="../../script/js/APIUtils.js"></script>
+    <script type="text/javascript" src="../../script/js/tab/tab-my.js"></script>
+</head>
+<body>
+<div class="towboxbg">
+    <!--数据-->
+    <div class="pd15">
+        <div class="mui-col-xs-3 mui-col-sm-3 fl"  >
+            <img src="../../image/nofind.gif" width="80%" id="headImg" onerror="APIUtils.noFind()"
+                 onclick="APIUtils.openPhotoBrowser([this.src])" style="border-radius: 50px" />
+        </div>
+        <div class="mui-col-xs-9 mui-col-sm-9 fl"  >
+            <div class="f18" id="name"></div>
+            <div class="fblue2" id="position"></div>
+            <div class="fblue2" id="projectName"></div>
+        </div>
+        <div class="clear"></div>
+        <!-- <ul class="mui-table-view mui-grid-view ">
+        <li class="mui-table-view-cell mui-media mui-col-xs-2 mui-col-sm-2">
+        <img src="../../image/user.png" style="border-radius: 50px" align="left"/>
+        </li>
+        <li class="mui-table-view-cell mui-media mui-col-xs-10 mui-col-sm-10"  >
+        <div class="" style="font-size: 20px;"  align="left">陈志龙</div>
+        <div class="" style="font-size: 15px;color: rgba(79,203,255,0.5);"  align="left">项目经理</div>
+        <div class="" style="font-size: 15px; color: rgba(79,203,255,0.5);"  align="left">中杰资本大厦项目</div>
+        </li>
+
+        </ul>-->
+    </div>
+</div>
+<!---底部导航-->
+<ul class="ulist">
+    <li style="padding-top:15px;">
+        <div onclick="APIUtils.goToPageByWindow('accountManage','../my/accountManage.html');">
+            <img src="../../image/user.png" style="width:15px;height:15px;"/>&nbsp;&nbsp;账号管理
+        </div>
+    </li>
+    <li>
+        <div onclick="APIUtils.goToPageByWindow('aboutUs','../my/aboutUs.html');">
+            <img src="../../image/aboutUs.png" style="width:15px;height:15px;"/>&nbsp;&nbsp;关于我们
+        </div>
+    </li>
+    <li>
+        <div onclick="APIUtils.goToPageByWindow('settingUpinstall','../my/settingUpinstall.html');" >
+            <img src="../../image/setting.png" style="width:15px;height:15px;"/>&nbsp;&nbsp;使用设置
+        </div>
+    </li>
+</ul>
+</body>
+<script type="text/javascript">
+    apiready =function() {
+        //从缓存中拿到staffid
+        var staffId = $api.getStorage(KeyMap.CURRENT_USER)["staffId"];
+        APIUtils.showProgress("提示", "正在加载中....");
+        myModule.my(staffId, function (ret, err) {
+            APIUtils.hideProgress();
+            //判断请求是否错误
+            if (!APIUtils.errorCatch(err)) {
+                return;
+            }
+            var myData = ret.object;
+            $api.dom('#headImg').src= myData.headImg == null ? "" : myData.headImg;
+            // $api.dom('#name').innerHTML= myData.name == null ? "" : myData.name;
+            $api.dom('#name').innerHTML = JSON.parse($api.getStorage(KeyMap.CURRENT_USER)["userInfo"]).userName;
+            $api.dom('#position').innerHTML= myData.position == null ? "" : myData.position;
+            $api.dom('#projectName').innerHTML= myData.projectName == null ? "" : myData.projectName;
+        });
+    }
+
+</script>
+</html>

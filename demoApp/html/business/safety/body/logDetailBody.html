@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title>安全日志详情</title>
+	<link href="../../../../css/mui.css" rel="stylesheet" />
+	<link href="../../../../css/layout.css" rel="stylesheet" />
+	<link href="../../../../css/safetyDisclosure.css" rel="stylesheet" />
+	<script type="text/javascript" src="../../../../script/dot.min.js"></script>
+	<script type="text/javascript" src="../../../../script/api.js"></script>
+	<script type="text/javascript" src="../../../../script/js/APIUtils.js"></script>
+	<script type="text/javascript" src="../../../../script/js/business/business-supervision.js"></script>
+</head>
+<body>
+<header class="mui-bar-nav mui-bar-transparent" style="display: none;">
+	<a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="APIUtils.goBeforePage()"></a>
+	<h1 class="mui-title">安全日志详情</h1>
+</header>
+<!--<div style="height:10px;"></div>-->
+<div class="mui-content-padded">
+	<div class="disItem">
+		<div class="mui-col-xs-3 mui-col-sm-3 fl">
+			<img src="../../../../image/nofind.png" id="createImg" onerror="APIUtils.noFind()"
+				 onclick="APIUtils.openPhotoBrowser([this.src])" width="85%" style="border-radius:8px;"/>
+		</div>
+		<div class="mui-col-xs-9 mui-col-sm-9 fl">
+			<div class="bgblue">
+				<p class="f16" id="projectName">无</p>
+				<p class="fblue2">上报人：<span id="createName">无</span></p>
+				<p class="fblue2">上报时间：<span id="createtime">无</span></p>
+				<p class="f16 forceWrap" id="content">无</p>
+				<div class="iemcontentImg mt10" id="logImgDiv">
+				</div>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="comment">
+		<div class="tittle">评论记录</div>
+		<div id="logCommentDiv">
+			<div class="mui-col-xs-2 mui-col-sm-2 fl">
+				<img src="../../../../image/avoda.jpg" width="90%" style="border-radius:8px;" />
+			</div>
+			<div class="mui-col-xs-10 mui-col-sm-10 fl">
+				<p class="fblue2">无<span class="fr">无</span></p>
+				<p>无</p>
+			</div>
+			<div class="clear mbot5"></div>
+		</div>
+	</div>
+<!--	<div class="mui-content-padded">-->
+<!--		<button type="button" class="mui-btn mui-btn-block mybtn" onclick="jumpAddLogComment()">评论</button>-->
+<!--	</div>-->
+</div>
+<script id="logImgDot" type="text/x-dot-template">
+	{{ for(var x in it) { }}
+	<div class="mui-col-xs-3 mui-col-sm-3 fl">
+		<img name="imgs" src="{{= it[x].filepath }}" onerror="APIUtils.noFind()"
+			 width="90%" onclick="APIUtils.openPhotoBrowser(null, '{{=x}}', this.name)"/>
+	</div>
+	{{ } }}
+	<div class="clear"></div>
+</script>
+<script id="logCommentDot" type="text/x-dot-template">
+	{{ for(var x in it) { }}
+	<div class="mui-col-xs-2 mui-col-sm-2 fl">
+		<img src="{{= it[x].headImage}}" onerror="APIUtils.noFind()" onclick="APIUtils.openPhotoBrowser([this.src])"
+			 width="90%" style="border-radius:8px;" />
+	</div>
+	<div class="mui-col-xs-10 mui-col-sm-10 fl">
+		<div class="fblue2">{{? it[x].staffName != null }} {{= it[x].staffName}}{{??}} &nbsp; {{?}}<span class="fr">
+			{{? it[x].createtime != null }} {{= it[x].createtime}}{{??}} &nbsp; {{?}}</span></div>
+		<div>{{? it[x].content != null }} {{= it[x].content}}{{??}} &nbsp; {{?}}</div>
+	</div>
+	<div class="clear mbot5"></div>
+	{{ } }}
+</script>
+
+<script type="text/javascript">
+	// 数据加载参数（页码大小、页码起始页、搜索条件）
+	var searchDataJson = {pageSize: 1000, pageIndex: 0, searchData: [{}]};
+
+	apiready = function() {
+		$api.fixStatusBar( $api.dom('header'));
+		// searchDataJson.pageSize = APIUtils.getPageSize(null, "logCommentDiv");
+		var searchJsonArr = new Array();
+		searchJsonArr.push({"name":"eq_zhgdLog.id", "value":api.pageParam.id});
+		searchDataJson.searchData = searchJsonArr;
+		// 清空模块内容
+		$api.dom('#logCommentDiv').innerHTML = "";
+		// 初始加载日志信息
+		initLog(api.pageParam.id);
+		// 初始加载分页数据
+		loadLogComment();
+	};
+
+	/**
+	 * 加载安全日志信息
+	 * @param id
+	 */
+	function initLog(id){
+		APIUtils.showProgress("提示", "正在加载中....");
+		superModule.getLogById(id, function(ret, err) {
+			APIUtils.hideProgress();
+			// 判断请求是否错误
+			if (!APIUtils.errorCatch(err)) {
+				return;
+			}
+			var data = ret.object;
+			// 设置dom元素内容
+			$api.dom('#projectName').innerHTML = data.projectName == null ? "" : data.projectName;//项目名称
+			$api.dom('#createName').innerHTML = data.createName == null ? "" : data.createName;//上报人
+			$api.dom('#createtime').innerHTML = data.createtime == null ? "" : new Date(data.createtime).Format("yyyy-MM-dd hh:mm:ss");//上报时间
+			$api.dom('#content').innerHTML = data.content == null ? "" : data.content;//内容
+			var interText = doT.template($api.dom("#logImgDot").innerHTML);
+			$api.dom('#logImgDiv').innerHTML = interText(data.imgs);
+		});
+	}
+	/**
+	 * 加载日志评论数据
+	 */
+	function loadLogComment(){
+		APIUtils.showProgress("提示", "正在加载中....");
+		superModule.getLogComment(searchDataJson, function(ret, err) {
+			APIUtils.hideProgress();
+			// 判断请求是否错误
+			if (!APIUtils.errorCatch(err)) {
+				return;
+			}
+			var logCommentData = ret.data;
+			if(logCommentData==null || logCommentData.length==0) {
+				APIUtils.showToast("暂无安全日志评论记录",2000);
+				return;
+			}
+			for(var i=0; i<logCommentData.length; i++) {
+				logCommentData[i].createtime = new Date(logCommentData[i].createtime).Format("yyyy-MM-dd hh:mm:ss");
+				// 移除html标签( <br/>换行标志除外 )
+				logCommentData[i].content = logCommentData[i].content.replace(/<.*?>&~<br\/>/g,"");
+			}
+			// 数据页码加一
+			var interText = doT.template($api.dom("#logCommentDot").innerHTML);
+			$api.dom('#logCommentDiv').innerHTML = interText(logCommentData);
+		});
+	}
+	/**
+	 * 跳转新增安全日志评论
+	 */
+	function jumpAddLogComment(text) {
+		var textJson = {content: text};
+		APIUtils.goToPageByWindow('addLogForm', '../add/addLogForm.html', textJson);
+	}
+
+	/**
+	 * 提交评论并重新加载评论记录
+	 * @param text 评论内容
+	 */
+	function commitLogComment(text) {
+		var userInfo = JSON.parse($api.getStorage(KeyMap.CURRENT_USER)["userInfo"]);
+		// 封装日志评论信息
+		var logCommentInfo = {progressLogId: api.pageParam.id, staffId: userInfo.id, staffName: userInfo.userName,
+			headImage: userInfo.headImage, content: text};
+		APIUtils.showProgress("提示", "正在提交中....");
+		superModule.addComment(logCommentInfo, function(ret, err){
+			APIUtils.hideProgress();
+			//判断请求是否错误
+			if(!APIUtils.errorCatch(err)){
+				return;
+			}
+			// 初始加载分页数据
+			loadLogComment();
+		});
+	}
+</script>
+</body>
+
+</html>
